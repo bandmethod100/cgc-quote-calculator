@@ -310,6 +310,25 @@ h2 {
   padding-top: 16px;
 }
 
+.admin-price-file .price-file-status {
+  align-items: flex-start;
+}
+
+.admin-price-file .price-file-dropdown {
+  width: min(620px, 100%);
+}
+
+.admin-price-file .price-file-dropdown[open] {
+  flex-basis: 100%;
+}
+
+.admin-price-file .price-file-options {
+  position: static;
+  width: 100%;
+  max-height: min(55vh, 520px);
+  margin-top: 8px;
+}
+
 .yearly-actions {
   display: flex;
   align-items: stretch;
