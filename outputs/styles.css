@@ -94,9 +94,10 @@ button {
 }
 
 .app-shell {
-  width: min(1560px, 100%);
+  width: 100%;
+  max-width: 1900px;
   margin: 0 auto;
-  padding: 46px 24px 38px;
+  padding: 46px 18px 38px;
 }
 
 .masthead {
@@ -170,8 +171,8 @@ h2 {
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 380px;
-  gap: 22px;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 18px;
   align-items: start;
 }
 
@@ -689,45 +690,45 @@ table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  min-width: 780px;
+  min-width: 960px;
   font-size: 0.9rem;
 }
 
 .fixed-table {
-  min-width: 1180px;
-  table-layout: fixed;
+  min-width: 1500px;
+  table-layout: auto;
 }
 
 .fixed-table th:nth-child(1),
 .fixed-table td:nth-child(1) {
-  width: 70px;
+  width: 86px;
 }
 
 .fixed-table th:nth-child(2),
 .fixed-table td:nth-child(2) {
-  width: 135px;
+  width: 180px;
 }
 
 .fixed-table th:nth-child(3),
 .fixed-table td:nth-child(3) {
-  width: 300px;
+  width: 360px;
   line-height: 1.45;
 }
 
 .fixed-table th:nth-child(4),
 .fixed-table td:nth-child(4) {
-  width: 190px;
+  width: 280px;
 }
 
 .fixed-table th:nth-child(5),
 .fixed-table td:nth-child(5) {
-  width: 300px;
+  width: 380px;
   line-height: 1.45;
 }
 
 .fixed-table th:nth-child(6),
 .fixed-table td:nth-child(6) {
-  width: 185px;
+  width: 214px;
 }
 
 .fixed-table td.money {
@@ -904,13 +905,14 @@ td.percent {
 
 .row-actions button {
   min-height: 30px;
-  padding: 6px 5px;
+  padding: 6px 8px;
   border-radius: 8px;
   background: transparent;
   color: var(--ink);
   border: 1px solid #dbe4eb;
   font-size: 0.81rem;
   font-weight: 700;
+  white-space: normal;
 }
 
 .row-actions button:first-child {
@@ -947,6 +949,7 @@ td.percent {
 
 .method-pill {
   display: inline-block;
+  max-width: 100%;
   padding: 4px 9px;
   border: 1px solid #dce4ea;
   border-radius: 999px;
@@ -954,7 +957,8 @@ td.percent {
   color: #34465a;
   font-size: 0.78rem;
   font-weight: 700;
-  white-space: nowrap;
+  line-height: 1.25;
+  white-space: normal;
 }
 
 .row-actions button:disabled,
