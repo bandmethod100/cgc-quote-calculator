@@ -694,7 +694,44 @@ table {
 }
 
 .fixed-table {
-  min-width: 780px;
+  min-width: 1180px;
+  table-layout: fixed;
+}
+
+.fixed-table th:nth-child(1),
+.fixed-table td:nth-child(1) {
+  width: 70px;
+}
+
+.fixed-table th:nth-child(2),
+.fixed-table td:nth-child(2) {
+  width: 135px;
+}
+
+.fixed-table th:nth-child(3),
+.fixed-table td:nth-child(3) {
+  width: 300px;
+  line-height: 1.45;
+}
+
+.fixed-table th:nth-child(4),
+.fixed-table td:nth-child(4) {
+  width: 190px;
+}
+
+.fixed-table th:nth-child(5),
+.fixed-table td:nth-child(5) {
+  width: 300px;
+  line-height: 1.45;
+}
+
+.fixed-table th:nth-child(6),
+.fixed-table td:nth-child(6) {
+  width: 185px;
+}
+
+.fixed-table td.money {
+  white-space: normal;
 }
 
 th,
