@@ -1,0 +1,5 @@
+__pycache__/
+work/
+outputs/*.png
+outputs/pricing-state.backup.json
+outputs/*.tmp

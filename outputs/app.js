@@ -441,35 +441,60 @@ function setSharedSaveStatus(message, tone = "") {
 }
 
 async function loadSharedPricingState() {
+  let state = null;
+  let loadedFromSharedServer = false;
+
   try {
     const response = await fetch("/api/pricing-state", { cache: "no-store" });
-    if (!response.ok) {
-      sharedPricingAvailable = false;
-      setSharedSaveStatus("Shared pricing file is not available right now. Changes are only local until the server is back.", "warning");
-      return;
-    }
-
-    const state = await response.json();
-    const hasSharedPricingState = Array.isArray(state.parts) || Array.isArray(state.fixedRepairs) || Array.isArray(state.yearlyIncreaseLog);
-    if (Array.isArray(state.parts)) {
-      parts = mergeDefaultParts(normalizeParts(state.parts));
-    }
-    if (Array.isArray(state.fixedRepairs)) {
-      fixedRepairItems = mergeDefaultFixedRepairItems(state.fixedRepairs);
-    }
-    if (Array.isArray(state.yearlyIncreaseLog)) {
-      yearlyIncreaseLog = state.yearlyIncreaseLog;
-    }
-
-    sharedPricingAvailable = true;
-    setSharedSaveStatus("Shared pricing file connected. Save changes when you want to push updates to everyone.", "ready");
-    render();
-    if (!hasSharedPricingState || Array.isArray(state.fixedRepairs) || Array.isArray(state.parts)) {
-      await saveSharedPricingState();
+    if (response.ok) {
+      state = await response.json();
+      loadedFromSharedServer = true;
     }
   } catch {
+    state = null;
+  }
+
+  if (!state) {
+    try {
+      const response = await fetch("pricing-state.json", { cache: "no-store" });
+      if (response.ok) {
+        state = await response.json();
+      }
+    } catch {
+      state = null;
+    }
+  }
+
+  if (!state) {
     sharedPricingAvailable = false;
     setSharedSaveStatus("Shared pricing file is not available right now. Changes are only local until the server is back.", "warning");
+    return;
+  }
+
+  const hasSharedPricingState = Array.isArray(state.parts) || Array.isArray(state.fixedRepairs) || Array.isArray(state.yearlyIncreaseLog);
+  if (Array.isArray(state.parts)) {
+    parts = mergeDefaultParts(normalizeParts(state.parts));
+  }
+  if (Array.isArray(state.fixedRepairs)) {
+    fixedRepairItems = mergeDefaultFixedRepairItems(state.fixedRepairs);
+  }
+  if (Array.isArray(state.yearlyIncreaseLog)) {
+    yearlyIncreaseLog = state.yearlyIncreaseLog;
+  }
+
+  sharedPricingAvailable = loadedFromSharedServer;
+  if (loadedFromSharedServer) {
+    setSharedSaveStatus("Shared pricing file connected. Save changes when you want to push updates to everyone.", "ready");
+  } else {
+    setSharedSaveStatus("Hosted price file loaded. Save Changes is only available in the local/server version.", "warning");
+    if (els.savePricingChanges) {
+      els.savePricingChanges.disabled = true;
+    }
+  }
+
+  render();
+  if (loadedFromSharedServer && (!hasSharedPricingState || Array.isArray(state.fixedRepairs) || Array.isArray(state.parts))) {
+    await saveSharedPricingState();
   }
 }
 
