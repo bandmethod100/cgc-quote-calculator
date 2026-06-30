@@ -10,7 +10,7 @@ const STORAGE_KEYS = {
 };
 
 const LOGIN_USERNAME = "cgc";
-const LOGIN_PASSWORD = "quote2026";
+const LOGIN_PASSWORD = "Camaro1968";
 
 const sampleParts = [
   { id: "default-777-front-stub-axle", model: "777", description: "Front Stub Axle", baseCost: 240, sellPercent: 25 },
