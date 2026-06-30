@@ -695,7 +695,7 @@ table {
 }
 
 .fixed-table {
-  min-width: 1500px;
+  min-width: 1540px;
   table-layout: auto;
 }
 
@@ -728,7 +728,8 @@ table {
 
 .fixed-table th:nth-child(6),
 .fixed-table td:nth-child(6) {
-  width: 214px;
+  width: 250px;
+  padding-right: 28px;
 }
 
 .fixed-table td.money {
@@ -894,13 +895,14 @@ td.percent {
 }
 
 .fixed-actions-col {
-  width: 154px;
+  width: 250px;
 }
 
 .row-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6px;
+  max-width: 220px;
 }
 
 .row-actions button {
