@@ -11,6 +11,7 @@ const STORAGE_KEYS = {
 
 const LOGIN_USERNAME = "cgc";
 const LOGIN_PASSWORD = "Camaro1968";
+const FIREBASE_DATABASE_URL = "https://cgc-quote-calculator-default-rtdb.asia-southeast1.firebasedatabase.app";
 
 const sampleParts = [
   { id: "default-777-front-stub-axle", model: "777", description: "Front Stub Axle", baseCost: 240, sellPercent: 25 },
@@ -219,6 +220,7 @@ let selectedPriceFileIds = new Set();
 let editingFixedPriceId = "";
 let editingFixedRepairIds = [];
 let sharedPricingAvailable = false;
+let sharedPricingSource = "";
 let sharedPricingSaveTimer = 0;
 
 const els = {
@@ -491,15 +493,77 @@ function setSharedSaveStatus(message, tone = "") {
   els.sharedSaveStatus.dataset.tone = tone;
 }
 
+function firebasePricingStateUrl() {
+  return `${FIREBASE_DATABASE_URL.replace(/\/$/, "")}/pricing-state.json`;
+}
+
+function hasSharedPricingData(state) {
+  return Boolean(
+    state &&
+    (Array.isArray(state.parts) ||
+      Array.isArray(state.fixedRepairs) ||
+      Array.isArray(state.yearlyIncreaseLog))
+  );
+}
+
+function applySharedPricingState(state) {
+  if (Array.isArray(state.parts)) {
+    parts = mergeDefaultParts(normalizeParts(state.parts));
+  }
+  if (Array.isArray(state.fixedRepairs)) {
+    fixedRepairItems = mergeDefaultFixedRepairItems(state.fixedRepairs);
+  }
+  if (Array.isArray(state.yearlyIncreaseLog)) {
+    yearlyIncreaseLog = state.yearlyIncreaseLog;
+  }
+  save();
+}
+
+async function loadFirebasePricingState() {
+  if (!FIREBASE_DATABASE_URL) return null;
+  const response = await fetch(firebasePricingStateUrl(), { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error("Firebase pricing state could not be loaded.");
+  }
+  return response.json();
+}
+
+async function saveFirebasePricingState(payload) {
+  const response = await fetch(firebasePricingStateUrl(), {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  if (!response.ok) {
+    throw new Error("Firebase pricing state could not be saved.");
+  }
+  return response.json();
+}
+
+async function saveServerPricingState(payload) {
+  const response = await fetch("/api/pricing-state", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  if (!response.ok) {
+    throw new Error("Server pricing state could not be saved.");
+  }
+  return response.json();
+}
+
 async function loadSharedPricingState() {
   let state = null;
-  let loadedFromSharedServer = false;
+  let source = "";
+  let firebaseWasEmpty = false;
 
   try {
-    const response = await fetch("/api/pricing-state", { cache: "no-store" });
-    if (response.ok) {
-      state = await response.json();
-      loadedFromSharedServer = true;
+    const firebaseState = await loadFirebasePricingState();
+    if (hasSharedPricingData(firebaseState)) {
+      state = firebaseState;
+      source = "firebase";
+    } else {
+      firebaseWasEmpty = true;
     }
   } catch {
     state = null;
@@ -507,9 +571,22 @@ async function loadSharedPricingState() {
 
   if (!state) {
     try {
+      const response = await fetch("/api/pricing-state", { cache: "no-store" });
+      if (response.ok) {
+        state = await response.json();
+        source = "server";
+      }
+    } catch {
+      state = null;
+    }
+  }
+
+  if (!state) {
+    try {
       const response = await fetch("pricing-state.json", { cache: "no-store" });
       if (response.ok) {
         state = await response.json();
+        source = "static";
       }
     } catch {
       state = null;
@@ -522,21 +599,26 @@ async function loadSharedPricingState() {
     return;
   }
 
-  const hasSharedPricingState = Array.isArray(state.parts) || Array.isArray(state.fixedRepairs) || Array.isArray(state.yearlyIncreaseLog);
-  if (Array.isArray(state.parts)) {
-    parts = mergeDefaultParts(normalizeParts(state.parts));
-  }
-  if (Array.isArray(state.fixedRepairs)) {
-    fixedRepairItems = mergeDefaultFixedRepairItems(state.fixedRepairs);
-  }
-  if (Array.isArray(state.yearlyIncreaseLog)) {
-    yearlyIncreaseLog = state.yearlyIncreaseLog;
-  }
+  applySharedPricingState(state);
 
-  sharedPricingAvailable = loadedFromSharedServer;
-  if (loadedFromSharedServer) {
+  if (source === "firebase") {
+    sharedPricingSource = "firebase";
+    sharedPricingAvailable = true;
+    if (els.savePricingChanges) els.savePricingChanges.disabled = false;
+    setSharedSaveStatus("Firebase pricing connected. Save changes when you want to push updates to everyone.", "ready");
+  } else if (source === "server") {
+    sharedPricingSource = "server";
+    sharedPricingAvailable = true;
+    if (els.savePricingChanges) els.savePricingChanges.disabled = false;
     setSharedSaveStatus("Shared pricing file connected. Save changes when you want to push updates to everyone.", "ready");
+  } else if (FIREBASE_DATABASE_URL) {
+    sharedPricingSource = "firebase";
+    sharedPricingAvailable = true;
+    if (els.savePricingChanges) els.savePricingChanges.disabled = false;
+    setSharedSaveStatus("Hosted price file loaded. Click Save Changes once to publish it to Firebase for everyone.", "warning");
   } else {
+    sharedPricingSource = "";
+    sharedPricingAvailable = false;
     setSharedSaveStatus("Hosted price file loaded. Save Changes is only available in the local/server version.", "warning");
     if (els.savePricingChanges) {
       els.savePricingChanges.disabled = true;
@@ -544,7 +626,7 @@ async function loadSharedPricingState() {
   }
 
   render();
-  if (loadedFromSharedServer && (!hasSharedPricingState || Array.isArray(state.fixedRepairs) || Array.isArray(state.parts))) {
+  if (source === "static" && firebaseWasEmpty) {
     await saveSharedPricingState();
   }
 }
@@ -556,15 +638,17 @@ function queueSharedPricingSave() {
 }
 
 async function saveSharedPricingState() {
-  if (!sharedPricingAvailable) return false;
+  if (!sharedPricingSource) return false;
   try {
-    const response = await fetch("/api/pricing-state", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(sharedPricingState())
-    });
-    sharedPricingAvailable = response.ok;
-    return response.ok;
+    if (sharedPricingSource === "firebase") {
+      await saveFirebasePricingState(sharedPricingState());
+      return true;
+    }
+    if (sharedPricingSource === "server") {
+      await saveServerPricingState(sharedPricingState());
+      return true;
+    }
+    return false;
   } catch {
     sharedPricingAvailable = false;
     return false;
@@ -576,28 +660,24 @@ async function savePricingChangesNow() {
   if (els.savePricingChanges) {
     els.savePricingChanges.disabled = true;
   }
-  setSharedSaveStatus("Saving pricing changes to the shared server file...", "saving");
+  const sharedTarget = sharedPricingSource === "firebase" ? "Firebase" : "the shared server file";
+  setSharedSaveStatus(`Saving pricing changes to ${sharedTarget}...`, "saving");
 
   try {
-    const response = await fetch("/api/pricing-state", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(sharedPricingState())
-    });
+    const saved = await saveSharedPricingState();
 
-    sharedPricingAvailable = response.ok;
-
-    if (!response.ok) {
-      setSharedSaveStatus("Could not save to the shared server file. Your changes are still on this PC only.", "warning");
-      alert("Could not save pricing changes to the shared server file.");
+    if (!saved) {
+      setSharedSaveStatus(`Could not save to ${sharedTarget}. Your changes are still on this browser only.`, "warning");
+      alert(`Could not save pricing changes to ${sharedTarget}.`);
       return;
     }
 
-    setSharedSaveStatus(`Pricing changes saved to the shared server file at ${formatLogDate(new Date())}.`, "success");
+    sharedPricingAvailable = true;
+    setSharedSaveStatus(`Pricing changes saved to ${sharedTarget} at ${formatLogDate(new Date())}.`, "success");
   } catch {
     sharedPricingAvailable = false;
-    setSharedSaveStatus("Could not reach the shared server file. Your changes are still on this PC only.", "warning");
-    alert("Could not reach the shared server file to save pricing changes.");
+    setSharedSaveStatus(`Could not reach ${sharedTarget}. Your changes are still on this browser only.`, "warning");
+    alert(`Could not reach ${sharedTarget} to save pricing changes.`);
   } finally {
     if (els.savePricingChanges) {
       els.savePricingChanges.disabled = false;
