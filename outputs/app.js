@@ -58,6 +58,7 @@ const currency = new Intl.NumberFormat("en-AU", {
 const sellPercentOptions = [0, 5, 8, 10, 15, 20, 25, 30, 35];
 const defaultCrackTestBaseCost = 155;
 const defaultCrackTestSellPercent = 15;
+const defaultAddOnPrices = { measure: 165, cleanPack: 247.5, weldRepairs: 0, weldRepairsHours: "", reCracktest: 178.5, delivery: 150, additional: 0, consumablesPercent: 5 };
 const weldRepairsHourlyRate = 165;
 const threadRepairPricingScales = {
   "m10-m16": {
@@ -211,12 +212,17 @@ const defaultFixedRepairItems = [
 let fixedRepairItems = mergeDefaultFixedRepairItems(load(STORAGE_KEYS.fixedRepairs, defaultFixedRepairItems));
 let parts = mergeDefaultParts(normalizeParts(load(STORAGE_KEYS.parts, sampleParts)));
 let quoteItems = [];
+const storedAddOnPrices = load(STORAGE_KEYS.addOns, defaultAddOnPrices);
 let addOnPrices = {
-  ...load(STORAGE_KEYS.addOns, { measure: 165, cleanPack: 247.5, weldRepairs: 0, weldRepairsHours: "", reCracktest: 136.5, delivery: 150, additional: 0, consumablesPercent: 5 }),
+  ...defaultAddOnPrices,
+  ...storedAddOnPrices,
   additional: 0,
   weldRepairs: 0,
   weldRepairsHours: ""
 };
+if (addOnPrices.reCracktest === 136.5) {
+  addOnPrices.reCracktest = defaultAddOnPrices.reCracktest;
+}
 let quoteMeta = { customerName: "", initialQuoteNumber: "", customerWorkOrder: "" };
 let collapsedModels = load(STORAGE_KEYS.collapsedModels, { parts: {}, fixed: {} });
 let yearlyIncreaseLog = load(STORAGE_KEYS.yearlyIncreaseLog, []);
@@ -3540,7 +3546,7 @@ els.measurePrice.value = addOnPrices.measure ?? 165;
 els.additionalPrice.value = addOnPrices.additional ?? 0;
 els.weldRepairsPrice.value = addOnPrices.weldRepairs ?? 0;
 els.weldRepairsHours.value = addOnPrices.weldRepairsHours ?? "";
-els.reCracktestPrice.value = addOnPrices.reCracktest ?? 136.5;
+els.reCracktestPrice.value = addOnPrices.reCracktest ?? defaultAddOnPrices.reCracktest;
 els.cleanPackPrice.value = addOnPrices.cleanPack ?? 247.5;
 els.deliveryPrice.value = addOnPrices.delivery ?? 150;
 els.consumablesPercent.value = addOnPrices.consumablesPercent ?? 5;
