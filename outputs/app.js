@@ -9,8 +9,7 @@ const STORAGE_KEYS = {
   authSession: "cgc-quote-calculator.authSession"
 };
 
-const LOGIN_USERNAME = "cgc";
-const LOGIN_PASSWORD = "Camaro1968";
+const FIREBASE_API_KEY = "AIzaSyAbhBkbHsFX9ZUphNymfqd9wl8qVSviPHY";
 const FIREBASE_DATABASE_URL = "https://cgc-quote-calculator-default-rtdb.asia-southeast1.firebasedatabase.app";
 
 const sampleParts = [
@@ -327,33 +326,151 @@ function unlockApp() {
   document.body.classList.add("is-authenticated");
 }
 
-function initializeLogin() {
+function firebaseAuthUrl(action) {
+  return `https://identitytoolkit.googleapis.com/v1/accounts:${action}?key=${encodeURIComponent(FIREBASE_API_KEY)}`;
+}
+
+function firebaseTokenUrl() {
+  return `https://securetoken.googleapis.com/v1/token?key=${encodeURIComponent(FIREBASE_API_KEY)}`;
+}
+
+function buildAuthSession(authData, email) {
+  return {
+    date: todayLoginKey(),
+    email: authData.email || email,
+    idToken: authData.idToken,
+    refreshToken: authData.refreshToken,
+    localId: authData.localId || "",
+    expiresAt: Date.now() + Math.max(Number(authData.expiresIn || 3600) - 60, 60) * 1000
+  };
+}
+
+function saveAuthSession(session) {
+  localStorage.setItem(STORAGE_KEYS.authSession, JSON.stringify(session));
+}
+
+function clearAuthSession() {
+  localStorage.removeItem(STORAGE_KEYS.authSession);
+}
+
+function getAuthSession() {
+  const session = load(STORAGE_KEYS.authSession, null);
+  return session?.date === todayLoginKey() ? session : null;
+}
+
+async function signInWithFirebase(email, password) {
+  const response = await fetch(firebaseAuthUrl("signInWithPassword"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email,
+      password,
+      returnSecureToken: true
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error("Firebase sign in failed.");
+  }
+
+  return buildAuthSession(await response.json(), email);
+}
+
+async function refreshFirebaseSession(session) {
+  const response = await fetch(firebaseTokenUrl(), {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      grant_type: "refresh_token",
+      refresh_token: session.refreshToken
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error("Firebase session refresh failed.");
+  }
+
+  const authData = await response.json();
+  return buildAuthSession(
+    {
+      email: session.email,
+      idToken: authData.id_token,
+      refreshToken: authData.refresh_token,
+      localId: authData.user_id,
+      expiresIn: authData.expires_in
+    },
+    session.email
+  );
+}
+
+async function getFirebaseIdToken() {
   const existingSession = load(STORAGE_KEYS.authSession, null);
-  if (existingSession?.date === todayLoginKey()) {
-    unlockApp();
-    return;
+  if (!existingSession?.idToken || existingSession.date !== todayLoginKey()) {
+    throw new Error("Firebase login required.");
+  }
+
+  if (existingSession.expiresAt > Date.now() + 60000) {
+    return existingSession.idToken;
+  }
+
+  const refreshedSession = await refreshFirebaseSession(existingSession);
+  saveAuthSession(refreshedSession);
+  return refreshedSession.idToken;
+}
+
+function startAuthenticatedApp() {
+  unlockApp();
+  render();
+  loadSharedPricingState();
+}
+
+async function initializeLogin() {
+  els.loginForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const email = els.loginUsername.value.trim();
+    const password = els.loginPassword.value;
+    const submitButton = els.loginForm.querySelector("button[type='submit']");
+
+    els.loginError.textContent = "";
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Logging in...";
+    }
+
+    try {
+      const session = await signInWithFirebase(email, password);
+      saveAuthSession(session);
+      els.loginPassword.value = "";
+      startAuthenticatedApp();
+    } catch {
+      clearAuthSession();
+      els.loginError.textContent = "Incorrect email or password.";
+      els.loginPassword.value = "";
+      els.loginPassword.focus();
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Log in";
+      }
+    }
+  });
+
+  const existingSession = getAuthSession();
+  if (existingSession?.idToken) {
+    try {
+      if (existingSession.expiresAt <= Date.now() + 60000) {
+        saveAuthSession(await refreshFirebaseSession(existingSession));
+      }
+      startAuthenticatedApp();
+      return;
+    } catch {
+      clearAuthSession();
+    }
   }
 
   if (els.loginUsername) {
     els.loginUsername.focus();
   }
-
-  els.loginForm?.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const username = els.loginUsername.value.trim().toLowerCase();
-    const password = els.loginPassword.value;
-
-    if (username !== LOGIN_USERNAME || password !== LOGIN_PASSWORD) {
-      els.loginError.textContent = "Incorrect username or password.";
-      els.loginPassword.value = "";
-      els.loginPassword.focus();
-      return;
-    }
-
-    localStorage.setItem(STORAGE_KEYS.authSession, JSON.stringify({ date: todayLoginKey() }));
-    els.loginError.textContent = "";
-    unlockApp();
-  });
 }
 
 function load(key, fallback) {
@@ -493,8 +610,9 @@ function setSharedSaveStatus(message, tone = "") {
   els.sharedSaveStatus.dataset.tone = tone;
 }
 
-function firebasePricingStateUrl() {
-  return `${FIREBASE_DATABASE_URL.replace(/\/$/, "")}/pricing-state.json`;
+function firebasePricingStateUrl(idToken = "") {
+  const url = `${FIREBASE_DATABASE_URL.replace(/\/$/, "")}/pricing-state.json`;
+  return idToken ? `${url}?auth=${encodeURIComponent(idToken)}` : url;
 }
 
 function hasSharedPricingData(state) {
@@ -521,7 +639,8 @@ function applySharedPricingState(state) {
 
 async function loadFirebasePricingState() {
   if (!FIREBASE_DATABASE_URL) return null;
-  const response = await fetch(firebasePricingStateUrl(), { cache: "no-store" });
+  const idToken = await getFirebaseIdToken();
+  const response = await fetch(firebasePricingStateUrl(idToken), { cache: "no-store" });
   if (!response.ok) {
     throw new Error("Firebase pricing state could not be loaded.");
   }
@@ -529,7 +648,8 @@ async function loadFirebasePricingState() {
 }
 
 async function saveFirebasePricingState(payload) {
-  const response = await fetch(firebasePricingStateUrl(), {
+  const idToken = await getFirebaseIdToken();
+  const response = await fetch(firebasePricingStateUrl(idToken), {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
@@ -3530,5 +3650,3 @@ els.addConsumables.addEventListener("click", () => {
 });
 
 initializeLogin();
-render();
-loadSharedPricingState();
