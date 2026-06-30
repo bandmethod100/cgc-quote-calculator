@@ -703,17 +703,17 @@ table {
 
 .fixed-table th:nth-child(1),
 .fixed-table td:nth-child(1) {
-  width: 52px;
+  width: 86px;
 }
 
 .fixed-table th:nth-child(2),
 .fixed-table td:nth-child(2) {
-  width: 14%;
+  width: 13%;
 }
 
 .fixed-table th:nth-child(3),
 .fixed-table td:nth-child(3) {
-  width: 26%;
+  width: 24%;
   line-height: 1.45;
 }
 
@@ -724,7 +724,7 @@ table {
 
 .fixed-table th:nth-child(5),
 .fixed-table td:nth-child(5) {
-  width: 25%;
+  width: 24%;
   line-height: 1.45;
 }
 
@@ -765,6 +765,7 @@ th {
   display: inline-flex;
   align-items: center;
   gap: 7px;
+  white-space: nowrap;
 }
 
 .header-toggle {
