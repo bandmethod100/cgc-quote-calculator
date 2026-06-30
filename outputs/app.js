@@ -1730,6 +1730,7 @@ function fillFixedRepairForm(group) {
     } else {
       if (!filledPrimaryOther) {
         setFixedAreaOption("other");
+        els.fixedAreaInput.value = item.repairArea;
         els.fixedOtherAreaInput.value = item.repairArea;
         els.fixedOtherSellPriceInput.value = item.sellPrice;
         filledPrimaryOther = true;
@@ -1776,7 +1777,10 @@ function closeFixedRepairForm() {
 function selectedFixedRepairAreas() {
   const selectedOptions = [...document.querySelectorAll("[data-fixed-area-option]:checked")].map((option) => option.value);
   const detail = els.fixedAreaInput.value.trim();
-  const otherArea = els.fixedOtherAreaInput.value.trim();
+  const structuredAreaOptions = selectedOptions.filter((option) => option !== "other");
+  const otherArea = selectedOptions.includes("other") && !structuredAreaOptions.length && detail
+    ? detail
+    : els.fixedOtherAreaInput.value.trim();
   const extraOtherAreas = [...document.querySelectorAll("[data-fixed-extra-other-area]")].map((input) => {
     const row = input.closest("[data-fixed-other-row]");
     const priceInput = row?.querySelector("[data-fixed-extra-other-price]");
