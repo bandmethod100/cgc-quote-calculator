@@ -32,6 +32,56 @@ body {
   font-size: 15px;
 }
 
+body.auth-locked {
+  overflow: hidden;
+}
+
+body.auth-locked .app-shell {
+  display: none;
+}
+
+body:not(.auth-locked) .login-screen {
+  display: none;
+}
+
+.login-screen {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.login-card {
+  display: grid;
+  gap: 16px;
+  width: min(420px, 100%);
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: var(--shadow);
+}
+
+.login-card h1 {
+  font-size: 2rem;
+  text-align: left;
+}
+
+.login-eyebrow {
+  margin-bottom: 5px;
+  color: var(--brand-strong);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.login-error {
+  min-height: 18px;
+  color: var(--danger);
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+
 button,
 input,
 select {

@@ -5,8 +5,12 @@ const STORAGE_KEYS = {
   quoteMeta: "sandblast-parts-pricing.quoteMeta",
   collapsedModels: "sandblast-parts-pricing.collapsedModels",
   fixedRepairs: "sandblast-parts-pricing.fixedRepairs",
-  yearlyIncreaseLog: "sandblast-parts-pricing.yearlyIncreaseLog"
+  yearlyIncreaseLog: "sandblast-parts-pricing.yearlyIncreaseLog",
+  authSession: "cgc-quote-calculator.authSession"
 };
+
+const LOGIN_USERNAME = "cgc";
+const LOGIN_PASSWORD = "quote2026";
 
 const sampleParts = [
   { id: "default-777-front-stub-axle", model: "777", description: "Front Stub Axle", baseCost: 240, sellPercent: 25 },
@@ -298,10 +302,57 @@ const els = {
   yearlyIncrease: document.querySelector("#yearlyIncrease"),
   reverseYearlyIncrease: document.querySelector("#reverseYearlyIncrease"),
   yearlyIncreaseStatus: document.querySelector("#yearlyIncreaseStatus"),
+  loginScreen: document.querySelector("#loginScreen"),
+  loginForm: document.querySelector("#loginForm"),
+  loginUsername: document.querySelector("#loginUsername"),
+  loginPassword: document.querySelector("#loginPassword"),
+  loginError: document.querySelector("#loginError"),
   emptyPartsTemplate: document.querySelector("#emptyPartsTemplate"),
   emptyQuoteTemplate: document.querySelector("#emptyQuoteTemplate"),
   emptyFixedTemplate: document.querySelector("#emptyFixedTemplate")
 };
+
+function todayLoginKey() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function unlockApp() {
+  document.body.classList.remove("auth-locked");
+  document.body.classList.add("is-authenticated");
+}
+
+function initializeLogin() {
+  const existingSession = load(STORAGE_KEYS.authSession, null);
+  if (existingSession?.date === todayLoginKey()) {
+    unlockApp();
+    return;
+  }
+
+  if (els.loginUsername) {
+    els.loginUsername.focus();
+  }
+
+  els.loginForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const username = els.loginUsername.value.trim().toLowerCase();
+    const password = els.loginPassword.value;
+
+    if (username !== LOGIN_USERNAME || password !== LOGIN_PASSWORD) {
+      els.loginError.textContent = "Incorrect username or password.";
+      els.loginPassword.value = "";
+      els.loginPassword.focus();
+      return;
+    }
+
+    localStorage.setItem(STORAGE_KEYS.authSession, JSON.stringify({ date: todayLoginKey() }));
+    els.loginError.textContent = "";
+    unlockApp();
+  });
+}
 
 function load(key, fallback) {
   try {
@@ -3398,5 +3449,6 @@ els.addConsumables.addEventListener("click", () => {
   addConsumablesQuoteItem(addOnPrices.consumablesPercent);
 });
 
+initializeLogin();
 render();
 loadSharedPricingState();
