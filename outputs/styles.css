@@ -681,7 +681,8 @@ select:focus {
 
 .table-wrap {
   max-height: 58vh;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: #fff;
   scrollbar-color: #aebdca #eef3f6;
 }
@@ -690,46 +691,47 @@ table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  min-width: 960px;
+  min-width: 0;
+  table-layout: fixed;
   font-size: 0.9rem;
 }
 
 .fixed-table {
-  min-width: 1540px;
-  table-layout: auto;
+  min-width: 0;
+  table-layout: fixed;
 }
 
 .fixed-table th:nth-child(1),
 .fixed-table td:nth-child(1) {
-  width: 86px;
+  width: 52px;
 }
 
 .fixed-table th:nth-child(2),
 .fixed-table td:nth-child(2) {
-  width: 180px;
+  width: 14%;
 }
 
 .fixed-table th:nth-child(3),
 .fixed-table td:nth-child(3) {
-  width: 360px;
+  width: 26%;
   line-height: 1.45;
 }
 
 .fixed-table th:nth-child(4),
 .fixed-table td:nth-child(4) {
-  width: 280px;
+  width: 15%;
 }
 
 .fixed-table th:nth-child(5),
 .fixed-table td:nth-child(5) {
-  width: 380px;
+  width: 25%;
   line-height: 1.45;
 }
 
 .fixed-table th:nth-child(6),
 .fixed-table td:nth-child(6) {
-  width: 250px;
-  padding-right: 28px;
+  width: 20%;
+  padding-right: 12px;
 }
 
 .fixed-table td.money {
@@ -742,6 +744,7 @@ td {
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: middle;
+  overflow-wrap: anywhere;
 }
 
 th {
@@ -891,18 +894,19 @@ td.percent {
 }
 
 .actions-col {
-  width: 148px;
+  width: 132px;
 }
 
 .fixed-actions-col {
-  width: 250px;
+  width: auto;
 }
 
 .row-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6px;
-  max-width: 220px;
+  width: 100%;
+  max-width: none;
 }
 
 .row-actions button {
@@ -938,15 +942,15 @@ td.percent {
 }
 
 .triple-action {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(54px, 1fr));
 }
 
 .quad-action {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(54px, 1fr));
 }
 
 .multi-action {
-  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(54px, 1fr));
 }
 
 .method-pill {
