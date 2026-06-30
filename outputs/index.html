@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CGC Quote Calculator</title>
+    <link rel="stylesheet" href="styles.css?v=20260630-18">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="masthead" aria-labelledby="app-title">
+        <div>
+          <h1 id="app-title">CGC Quote Calculator</h1>
+        </div>
+        <div class="summary-strip" aria-label="Quote summary">
+          <div>
+            <span>Quote items</span>
+            <strong id="quoteCount">0</strong>
+          </div>
+          <div>
+            <span>Total sell</span>
+            <strong id="quoteTotal">$0.00</strong>
+          </div>
+        </div>
+      </section>
+
+      <details class="yearly-drawer">
+        <summary>Pricing admin</summary>
+        <div class="yearly-drawer-body">
+          <div class="yearly-actions">
+            <div>
+              <h2>Yearly Price Increase</h2>
+              <p id="yearlyIncreaseStatus">No yearly increase logged yet.</p>
+            </div>
+            <div class="yearly-buttons">
+              <button class="primary-btn" id="yearlyIncrease" type="button">Apply 5% Yearly Increase</button>
+              <button class="ghost-btn" id="reverseYearlyIncrease" type="button">Reverse Last Increase</button>
+            </div>
+          </div>
+
+          <div class="admin-save-row">
+            <div>
+              <h2>Save Pricing Changes</h2>
+              <p id="sharedSaveStatus">Ready to save pricing changes to the shared server file.</p>
+            </div>
+            <button class="primary-btn" id="savePricingChanges" type="button">Save Changes</button>
+          </div>
+
+          <div class="admin-divider"></div>
+
+          <div class="price-file-panel admin-price-file">
+            <div class="panel-head">
+              <div>
+                <h2>Price File</h2>
+                <p>Select parts below, then generate a customer price file.</p>
+              </div>
+              <div class="price-file-actions">
+                <button class="ghost-btn" id="selectAllPriceFile" type="button">Select all</button>
+                <button class="ghost-btn" id="clearPriceFileSelection" type="button">Clear selection</button>
+                <button class="primary-btn" id="generatePriceFile" type="button">Generate Price File</button>
+              </div>
+            </div>
+            <div class="price-file-status">
+              <span id="priceFileSelectionCount">0 parts selected</span>
+              <details class="price-file-dropdown" id="priceFileDropdown">
+                <summary><span id="priceFileDropdownText">Choose parts</span></summary>
+                <div class="price-file-options">
+                  <label class="price-file-search">
+                    <span>Search parts</span>
+                    <input id="priceFileSearch" type="search" placeholder="793F Rear Spindle">
+                  </label>
+                  <div id="priceFileOptions"></div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <section class="workspace">
+        <div class="panel addon-panel">
+          <div class="quote-addon standalone-addon">
+            <label>
+              <span>Measure</span>
+              <span class="currency-input">
+                <span>$</span>
+                <input id="measurePrice" type="number" min="0" step="0.01" value="165">
+              </span>
+            </label>
+            <button class="primary-btn" id="addMeasure" type="button">Add Measure</button>
+          </div>
+        </div>
+
+        <div class="panel catalog-panel">
+          <div class="panel-head">
+            <div>
+              <h2>Blasting &amp; Cracktesting</h2>
+              <p>Sandblast and crack-test pricing.</p>
+            </div>
+            <button class="primary-btn" id="openPartForm" type="button">+ Add part</button>
+          </div>
+
+          <div class="tools-row">
+            <label class="search-box">
+              <span>Search</span>
+              <input id="partSearch" type="search" placeholder="Part description">
+            </label>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <span class="header-toggle-wrap">
+                      <button class="header-toggle" id="partsToggleAll" type="button" aria-label="Collapse all part models">-</button>
+                      <span>Item</span>
+                    </span>
+                  </th>
+                  <th>B Base</th>
+                  <th>B %</th>
+                  <th>B Sell</th>
+                  <th>C Base</th>
+                  <th>C %</th>
+                  <th>C Sell</th>
+                  <th class="actions-col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="partsTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel fixed-panel">
+          <div class="panel-head">
+            <div>
+              <h2>Fixed Repairs</h2>
+              <p>Fixed sell prices from customer proposals.</p>
+            </div>
+            <div class="fixed-head-actions">
+              <button class="primary-btn" id="openFixedRepairForm" type="button">+ Add fixed repair</button>
+              <button class="ghost-btn" id="openFixedRepairEditForm" type="button">Edit fixed repair</button>
+            </div>
+          </div>
+
+          <div class="tools-row">
+            <label class="search-box">
+              <span>Search fixed repairs</span>
+              <input id="fixedSearch" type="search" placeholder="Model, item, repair area">
+            </label>
+          </div>
+
+          <div class="table-wrap fixed-table-wrap">
+            <table class="fixed-table">
+              <thead>
+                <tr>
+                  <th>
+                    <span class="header-toggle-wrap">
+                      <button class="header-toggle" id="fixedToggleAll" type="button" aria-label="Collapse all fixed repair models">-</button>
+                      <span>Model</span>
+                    </span>
+                  </th>
+                  <th>Item</th>
+                  <th>Area</th>
+                  <th>Method</th>
+                  <th>Sell</th>
+                  <th class="fixed-actions-col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="fixedTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel addon-panel compact-addons">
+          <div class="quote-addon compact-addon additional-addon">
+            <span class="addon-label">Additional Items/Repair(s)</span>
+            <input id="additionalDescription" type="text" placeholder="Description, eg material or special request">
+            <span class="currency-input">
+              <span>$</span>
+              <input id="additionalPrice" type="number" min="0" step="0.01" value="0.00">
+            </span>
+            <button class="primary-btn" id="addAdditionalItem" type="button">Add Item</button>
+          </div>
+
+          <div class="addon-services-grid">
+            <div class="quote-addon compact-addon service-addon weld-addon">
+              <span class="addon-label">Weld Repairs</span>
+              <span class="currency-input">
+                <span>$</span>
+                <input id="weldRepairsPrice" type="number" min="0" step="0.01" value="0.00">
+              </span>
+              <div class="hours-addon-input">
+                <input id="weldRepairsHours" type="number" min="0" step="0.1" value="" placeholder="Hours">
+                <span>$165/hr</span>
+              </div>
+              <button class="primary-btn" id="addWeldRepairs" type="button">Add Weld Repairs</button>
+            </div>
+
+            <div class="quote-addon compact-addon service-addon">
+              <span class="addon-label">Re-cracktest</span>
+              <span class="currency-input">
+                <span>$</span>
+                <input id="reCracktestPrice" type="number" min="0" step="0.01" value="136.50">
+              </span>
+              <button class="primary-btn" id="addReCracktest" type="button">Add Re-cracktest</button>
+            </div>
+
+            <div class="quote-addon compact-addon service-addon">
+              <span class="addon-label">Clean &amp; Pack</span>
+              <span class="currency-input">
+                <span>$</span>
+                <input id="cleanPackPrice" type="number" min="0" step="0.01" value="247.50">
+              </span>
+              <button class="primary-btn" id="addCleanPack" type="button">Add Clean &amp; Pack</button>
+            </div>
+
+            <div class="quote-addon compact-addon service-addon">
+              <span class="addon-label">Delivery</span>
+              <span class="currency-input">
+                <span>$</span>
+                <input id="deliveryPrice" type="number" min="0" step="0.01" value="150.00">
+              </span>
+              <button class="primary-btn" id="addDelivery" type="button">Add Delivery</button>
+            </div>
+
+            <div class="quote-addon compact-addon service-addon">
+              <span class="addon-label">Consumables</span>
+              <select id="consumablesPercent" aria-label="Consumables percentage">
+                <option value="5">5%</option>
+                <option value="10">10%</option>
+                <option value="15">15%</option>
+                <option value="20">20%</option>
+                <option value="25">25%</option>
+                <option value="30">30%</option>
+                <option value="35">35%</option>
+                <option value="40">40%</option>
+                <option value="45">45%</option>
+                <option value="50">50%</option>
+              </select>
+              <button class="primary-btn" id="addConsumables" type="button">Add Consumables</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="panel quote-panel" aria-labelledby="quote-title">
+          <div class="panel-head compact">
+            <div>
+              <h2 id="quote-title">Current Quote</h2>
+              <p>Live quote total and customer quote controls.</p>
+            </div>
+          </div>
+          <div class="quote-meta-fields">
+            <label>
+              <span>Customer</span>
+              <input id="customerName" type="text" placeholder="Customer name">
+            </label>
+            <label>
+              <span>Initial Quote #</span>
+              <input id="initialQuoteNumber" type="text" placeholder="E18959">
+            </label>
+            <label>
+              <span>Customer W/O #</span>
+              <input id="customerWorkOrder" type="text" placeholder="Customer W/O #">
+            </label>
+          </div>
+          <div id="quoteList" class="quote-list"></div>
+          <div class="quote-footer">
+            <div>
+              <span>Base total</span>
+              <strong id="quoteBaseTotal">$0.00</strong>
+            </div>
+            <div>
+              <span>Sell total</span>
+              <strong id="quoteSellTotal">$0.00</strong>
+            </div>
+          </div>
+          <div class="quote-actions">
+            <button class="ghost-btn" id="oneValueQuote" type="button">One Value</button>
+            <button class="ghost-btn" id="copyQuote" type="button">Multi Value</button>
+            <button class="danger-btn" id="clearQuote" type="button">Clear quote</button>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <dialog id="partDialog">
+      <form id="partForm" method="dialog">
+        <div class="dialog-head">
+          <h2 id="dialogTitle">Add Part</h2>
+          <button class="icon-btn" id="closePartForm" type="button" aria-label="Close">x</button>
+        </div>
+        <input id="editingPartId" type="hidden">
+        <div class="form-grid">
+          <label>
+            <span>Model number</span>
+            <input id="modelInput" type="text" required placeholder="789C">
+          </label>
+          <label>
+            <span>Item description</span>
+            <input id="descriptionInput" type="text" required placeholder="Rear Spindle">
+          </label>
+        </div>
+        <div class="form-grid">
+          <label>
+            <span>Blast base cost</span>
+            <input id="baseCostInput" type="number" min="0" step="0.01" required placeholder="280">
+          </label>
+          <label>
+            <span>Blast sell percent</span>
+            <input id="sellPercentInput" type="number" min="0" step="0.01" required placeholder="25">
+          </label>
+        </div>
+        <div class="form-grid">
+          <label>
+            <span>Crack-test base cost</span>
+            <input id="crackBaseCostInput" type="number" min="0" step="0.01" placeholder="155">
+          </label>
+          <label>
+            <span>Crack-test sell percent</span>
+            <input id="crackSellPercentInput" type="number" min="0" step="0.01" placeholder="15">
+          </label>
+        </div>
+        <output id="previewSellCost" class="preview-output">$0.00 blast sell / $0.00 crack-test sell</output>
+        <div class="dialog-actions">
+          <button class="ghost-btn" id="cancelPartForm" type="button">Cancel</button>
+          <button class="primary-btn" type="submit">Save part</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="fixedRepairDialog">
+      <form id="fixedRepairForm" method="dialog">
+        <div class="dialog-head">
+          <div>
+            <h2 id="fixedRepairDialogTitle">Add Fixed Repair</h2>
+            <p>Add a fixed sell price repair to the pricing table.</p>
+          </div>
+          <button class="icon-btn" id="closeFixedRepairForm" type="button" aria-label="Close">x</button>
+        </div>
+
+        <section class="dialog-section edit-fixed-selector" id="fixedRepairSelectSection" hidden>
+          <h3>Select Repair To Edit</h3>
+          <label>
+            <span>Fixed repair</span>
+            <select id="fixedRepairSelect"></select>
+          </label>
+        </section>
+
+        <section class="dialog-section">
+          <h3>Part Details</h3>
+          <div class="form-grid">
+            <label>
+              <span>Model number</span>
+              <input id="fixedModelInput" type="text" required placeholder="793F">
+            </label>
+            <label>
+              <span>Item</span>
+              <input id="fixedItemInput" type="text" required placeholder="Rear Spindle">
+            </label>
+          </div>
+          <div class="form-grid single-field">
+            <label>
+              <span>Method</span>
+              <input id="fixedMethodInput" type="text" required placeholder="Laser Cladding">
+            </label>
+          </div>
+        </section>
+
+        <section class="dialog-section repair-area-picker">
+          <h3>Repair Areas &amp; Sell Prices</h3>
+          <div class="area-detail-row">
+            <label>
+              <span>Shared area detail</span>
+              <input id="fixedAreaInput" type="text" placeholder="Bearing Area">
+            </label>
+            <p>Used for Inner and Outer, eg Inner Bearing Area.</p>
+          </div>
+
+          <div class="repair-area-list">
+            <label class="repair-area-row">
+              <span class="area-choice"><input type="checkbox" value="inner" data-fixed-area-option> Inner</span>
+              <span class="currency-input"><span>$</span><input id="fixedInnerSellPriceInput" type="number" min="0" step="0.01" placeholder="2150"></span>
+            </label>
+            <label class="repair-area-row">
+              <span class="area-choice"><input type="checkbox" value="outer" data-fixed-area-option> Outer</span>
+              <span class="currency-input"><span>$</span><input id="fixedOuterSellPriceInput" type="number" min="0" step="0.01" placeholder="2150"></span>
+            </label>
+            <label class="repair-area-row">
+              <span class="area-choice"><input type="checkbox" value="seal" data-fixed-area-option> Seal</span>
+              <span class="currency-input"><span>$</span><input id="fixedSealSellPriceInput" type="number" min="0" step="0.01" placeholder="1200"></span>
+            </label>
+            <div class="repair-area-row repair-area-row-other" data-fixed-other-row>
+              <span class="other-choice-wrap">
+                <label class="area-choice"><input type="checkbox" value="other" data-fixed-area-option> Other</label>
+                <button class="mini-plus-btn" id="addFixedOtherArea" type="button" aria-label="Add another other repair area">+</button>
+              </span>
+              <input id="fixedOtherAreaInput" type="text" placeholder="Skim Face">
+              <span class="currency-input"><span>$</span><input id="fixedOtherSellPriceInput" type="number" min="0" step="0.01" placeholder="900"></span>
+            </div>
+            <div class="extra-other-list" id="fixedOtherAreaList"></div>
+          </div>
+          <p class="dialog-hint">Each selected area needs its own sell price. Seal is always kept separate from Both.</p>
+        </section>
+
+        <div class="dialog-actions">
+          <button class="ghost-btn" id="cancelFixedRepairForm" type="button">Cancel</button>
+          <button class="primary-btn" id="saveFixedRepair" type="submit">Save fixed repair</button>
+        </div>
+      </form>
+    </dialog>
+
+    <template id="emptyPartsTemplate">
+      <tr>
+        <td class="empty-state" colspan="8">No parts yet. Add your first item to start building quotes.</td>
+      </tr>
+    </template>
+
+    <template id="emptyQuoteTemplate">
+      <div class="empty-quote">Add parts from the list to build a quote.</div>
+    </template>
+
+    <template id="emptyFixedTemplate">
+      <tr>
+        <td class="empty-state" colspan="6">No fixed repair prices match that search.</td>
+      </tr>
+    </template>
+
+    <script src="app.js?v=20260630-18"></script>
+  </body>
+</html>

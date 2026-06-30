@@ -1,0 +1,25 @@
+CGC Quote Calculator - Local Network Access
+
+This keeps the app off the public internet. It only runs from the host PC across the local Wi-Fi/LAN.
+
+How to start it:
+1. On the host PC, right-click start-lan-server.ps1 and choose "Run with PowerShell".
+2. Leave the PowerShell window open while the team is using the app.
+3. The window will show addresses like:
+   http://192.168.1.25:4178/
+4. Work mates on the same Wi-Fi can open that address in their browser.
+
+If Windows asks about network access:
+- Allow access on Private networks.
+- Do not allow Public networks unless your IT setup specifically requires it.
+
+If work mates cannot connect:
+1. Make sure they are on the same Wi-Fi/LAN.
+2. On the host PC, run ipconfig and check the IPv4 Address.
+3. Try http://HOST-IP:4178/ using that IPv4 address.
+4. Check Windows Firewall allows Python on Private networks, or ask IT to allow TCP port 4178 on the host PC.
+
+Important:
+- The host PC must stay on.
+- The PowerShell window must stay open.
+- This is not hosted on the internet.

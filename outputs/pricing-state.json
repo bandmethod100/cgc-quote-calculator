@@ -1,0 +1,1179 @@
+{
+  "parts": [
+    {
+      "id": "default-777-front-stub-axle",
+      "model": "777",
+      "description": "Front Stub Axle",
+      "baseCost": 240,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-777-front-w-hub",
+      "model": "777",
+      "description": "Front W/Hub",
+      "baseCost": 300,
+      "sellPercent": 20,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-777-rear-spindle",
+      "model": "777",
+      "description": "Rear Spindle",
+      "baseCost": 280,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-777-rear-w-hub",
+      "model": "777",
+      "description": "Rear W/Hub",
+      "baseCost": 400,
+      "sellPercent": 15,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-785c-front-stub-axle",
+      "model": "785C",
+      "description": "Front Stub Axle",
+      "baseCost": 240,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-785c-front-w-hub",
+      "model": "785C",
+      "description": "Front W/Hub",
+      "baseCost": 300,
+      "sellPercent": 20,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-785c-rear-spindle",
+      "model": "785C",
+      "description": "Rear Spindle",
+      "baseCost": 280,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-785c-rear-w-hub",
+      "model": "785C",
+      "description": "Rear W/Hub",
+      "baseCost": 450,
+      "sellPercent": 15,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-789c-front-stub-axle",
+      "model": "789C",
+      "description": "Front Stub Axle",
+      "baseCost": 240,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-789c-front-w-hub",
+      "model": "789C",
+      "description": "Front W/Hub",
+      "baseCost": 300,
+      "sellPercent": 20,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-789c-rear-spindle",
+      "model": "789C",
+      "description": "Rear Spindle",
+      "baseCost": 280,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-789c-rear-w-hub",
+      "model": "789C",
+      "description": "Rear W/Hub",
+      "baseCost": 450,
+      "sellPercent": 15,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-793c-front-stub-axle",
+      "model": "793C",
+      "description": "Front Stub Axle",
+      "baseCost": 240,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-793c-front-w-hub",
+      "model": "793C",
+      "description": "Front W/Hub",
+      "baseCost": 300,
+      "sellPercent": 20,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-793c-rear-spindle",
+      "model": "793C",
+      "description": "Rear Spindle",
+      "baseCost": 280,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-793c-rear-w-hub",
+      "model": "793C",
+      "description": "Rear W/Hub",
+      "baseCost": 450,
+      "sellPercent": 15,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-793f-front-stub-axle",
+      "model": "793F",
+      "description": "Front Stub Axle",
+      "baseCost": 240,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-793f-front-w-hub",
+      "model": "793F",
+      "description": "Front W/Hub",
+      "baseCost": 300,
+      "sellPercent": 20,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-793f-rear-spindle",
+      "model": "793F",
+      "description": "Rear Spindle",
+      "baseCost": 280,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-793f-rear-w-hub",
+      "model": "793F",
+      "description": "Rear W/Hub",
+      "baseCost": 450,
+      "sellPercent": 15,
+      "crackTestBaseCost": null,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "default-830e-rear-wheel-hub",
+      "model": "830E",
+      "description": "Rear Wheel Hub",
+      "baseCost": 280,
+      "sellPercent": 30,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 45
+    },
+    {
+      "id": "default-830e-outer-lower-seal-ring",
+      "model": "830E",
+      "description": "Outer/Lower Seal Ring",
+      "baseCost": 136.5,
+      "sellPercent": 30,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 45
+    },
+    {
+      "id": "default-830e-finger-ring",
+      "model": "830E",
+      "description": "Finger Ring",
+      "baseCost": 136.5,
+      "sellPercent": 30,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 45
+    },
+    {
+      "id": "default-830e-torque-tube",
+      "model": "830E",
+      "description": "Torque Tube",
+      "baseCost": 245,
+      "sellPercent": 30,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 45
+    },
+    {
+      "id": "default-830e-main-frame",
+      "model": "830E",
+      "description": "Main Frame",
+      "baseCost": null,
+      "sellPercent": 30,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 45
+    },
+    {
+      "id": "default-830e-front-stub-axle",
+      "model": "830E",
+      "description": "Front Stub Axle",
+      "baseCost": 217,
+      "sellPercent": 30,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 45
+    },
+    {
+      "id": "default-830e-front-wheel-hub",
+      "model": "830E",
+      "description": "Front Wheel Hub",
+      "baseCost": 245,
+      "sellPercent": 30,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 45
+    },
+    {
+      "id": "default-930e-front-stub-axle",
+      "model": "930E",
+      "description": "Front Stub Axle",
+      "baseCost": 217,
+      "sellPercent": 30,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 45
+    },
+    {
+      "id": "default-930e-front-wheel-hub",
+      "model": "930E",
+      "description": "Front Wheel Hub",
+      "baseCost": 245,
+      "sellPercent": 30,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 45
+    },
+    {
+      "id": "default-930e-rear-spindle",
+      "model": "930E",
+      "description": "Rear Spindle",
+      "baseCost": 315,
+      "sellPercent": 30,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 45
+    },
+    {
+      "id": "default-930e-rear-wheel-hub",
+      "model": "930E",
+      "description": "Rear Wheel Hub",
+      "baseCost": 280,
+      "sellPercent": 30,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 45
+    },
+    {
+      "id": "a352c6c1-8b41-4faa-bec8-f24ebd9effc9",
+      "model": "793F",
+      "description": "Brake Piston",
+      "baseCost": 0,
+      "sellPercent": 0,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "b57314c8-54bd-4b7e-b2d0-b686a1722386",
+      "model": "793F",
+      "description": "Front Brake Anchor",
+      "baseCost": 260,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "bfc13a3b-ca84-46b6-bdbb-429cea9b7436",
+      "model": "793F",
+      "description": "Rear Brake Anchor",
+      "baseCost": 260,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "29ff7681-4c61-440c-b435-5115268912af",
+      "model": "777",
+      "description": "Front Brake Anchor",
+      "baseCost": 280,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "a665bfa5-24be-4e5d-872e-6d9904847e58",
+      "model": "777",
+      "description": "Rear Brake Anchor",
+      "baseCost": 280,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "dc23b73f-ec54-4976-9036-047bf0e79fff",
+      "model": "785C",
+      "description": "Front Brake Anchor",
+      "baseCost": 190,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "d25ee365-70de-4d82-9445-79a77bf1f835",
+      "model": "785C",
+      "description": "Rear Brake Anchor",
+      "baseCost": 190,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "e742b5eb-2fbd-45b9-a907-c2af4f9a060c",
+      "model": "793C",
+      "description": "Brake Piston",
+      "baseCost": 0,
+      "sellPercent": 0,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "6b33ab7a-7bdd-45ab-8b16-665c0e761b94",
+      "model": "789C",
+      "description": "Rear Brake Anchor",
+      "baseCost": 240,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    },
+    {
+      "id": "032678a1-e966-43bb-a3df-8988d45110f1",
+      "model": "789C",
+      "description": "Front Brake Anchor",
+      "baseCost": 240,
+      "sellPercent": 25,
+      "crackTestBaseCost": 155,
+      "crackTestSellPercent": 15
+    }
+  ],
+  "fixedRepairs": [
+    {
+      "id": "thread-repairs-m18-m24-repair-threads",
+      "model": "THREAD REPAIRS",
+      "item": "M18-M24",
+      "repairArea": "Repair Threads",
+      "method": "Repair Threads",
+      "sellPrice": 750,
+      "areaKind": "other"
+    },
+    {
+      "id": "fmg-777-rear-spindle-inner-bearing-area",
+      "model": "777",
+      "item": "Rear Spindle",
+      "repairArea": "Inner Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1510
+    },
+    {
+      "id": "fmg-777-rear-spindle-outer-bearing-area",
+      "model": "777",
+      "item": "Rear Spindle",
+      "repairArea": "Outer Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1510
+    },
+    {
+      "id": "fmg-778-rear-spindle-seal-area",
+      "model": "778",
+      "item": "Rear Spindle",
+      "repairArea": "Seal Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1100
+    },
+    {
+      "id": "fmg-785-rear-spindle-inner-bearing-area",
+      "model": "785",
+      "item": "Rear Spindle",
+      "repairArea": "Inner Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1650
+    },
+    {
+      "id": "fmg-785-rear-spindle-outer-bearing-area",
+      "model": "785",
+      "item": "Rear Spindle",
+      "repairArea": "Outer Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1650
+    },
+    {
+      "id": "fmg-789-rear-spindle-inner-bearing-area",
+      "model": "789",
+      "item": "Rear Spindle",
+      "repairArea": "Inner Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1680
+    },
+    {
+      "id": "fmg-789-rear-spindle-outer-bearing-area",
+      "model": "789",
+      "item": "Rear Spindle",
+      "repairArea": "Outer Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1680
+    },
+    {
+      "id": "fmg-793c-rear-spindle-inner-bearing-area",
+      "model": "793C",
+      "item": "Rear Spindle",
+      "repairArea": "Inner Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 2150
+    },
+    {
+      "id": "fmg-793c-rear-spindle-outer-bearing-area",
+      "model": "793C",
+      "item": "Rear Spindle",
+      "repairArea": "Outer Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 2150
+    },
+    {
+      "id": "fmg-793f-rear-spindle-inner-bearing-area",
+      "model": "793F",
+      "item": "Rear Spindle",
+      "repairArea": "Inner Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 2150
+    },
+    {
+      "id": "fmg-793f-rear-spindle-outer-bearing-area",
+      "model": "793F",
+      "item": "Rear Spindle",
+      "repairArea": "Outer Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 2150
+    },
+    {
+      "id": "fmg-777-rear-wheel-hub-inner-bearing-area",
+      "model": "777",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Inner Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1700
+    },
+    {
+      "id": "fmg-777-rear-wheel-hub-outer-bearing-area",
+      "model": "777",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1700
+    },
+    {
+      "id": "fmg-785-rear-wheel-hub-inner-bearing-area",
+      "model": "785",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Inner Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1860
+    },
+    {
+      "id": "fmg-785-rear-wheel-hub-outer-bearing-area",
+      "model": "785",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1860
+    },
+    {
+      "id": "fmg-789-rear-wheel-hub-inner-bearing-area",
+      "model": "789",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Inner Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 2250
+    },
+    {
+      "id": "fmg-789-rear-wheel-hub-outer-bearing-area",
+      "model": "789",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 2250
+    },
+    {
+      "id": "fmg-793c-rear-wheel-hub-inner-bearing-area",
+      "model": "793C",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Inner Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 2710
+    },
+    {
+      "id": "fmg-793c-rear-wheel-hub-outer-bearing-area",
+      "model": "793C",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 2710
+    },
+    {
+      "id": "fmg-793f-rear-wheel-hub-inner-bearing-area",
+      "model": "793F",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Inner Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 3440
+    },
+    {
+      "id": "fmg-793f-rear-wheel-hub-outer-bearing-area",
+      "model": "793F",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 3440
+    },
+    {
+      "id": "fmg-793c-brake-piston-inner-seal-area",
+      "model": "793C",
+      "item": "Brake Piston",
+      "repairArea": "Inner Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 1200
+    },
+    {
+      "id": "fmg-793c-brake-piston-outer-seal-area",
+      "model": "793C",
+      "item": "Brake Piston",
+      "repairArea": "Outer Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 1200
+    },
+    {
+      "id": "fmg-793f-brake-piston-inner-seal-area",
+      "model": "793F",
+      "item": "Brake Piston",
+      "repairArea": "Inner Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 1200
+    },
+    {
+      "id": "fmg-793f-brake-piston-outer-seal-area",
+      "model": "793F",
+      "item": "Brake Piston",
+      "repairArea": "Outer Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 1200
+    },
+    {
+      "id": "westrac-994-wheel-hub-inner-cup-bore",
+      "model": "994",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Inner Cup Bore",
+      "method": "Metal Spray",
+      "sellPrice": 2905
+    },
+    {
+      "id": "westrac-994-wheel-hub-outer-cup-bore",
+      "model": "994",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Outer Cup Bore",
+      "method": "Metal Spray",
+      "sellPrice": 2905
+    },
+    {
+      "id": "westrac-994-wheel-hub-both-cup-bores",
+      "model": "994",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Both Cup Bores",
+      "method": "Metal Spray",
+      "sellPrice": 4950
+    },
+    {
+      "id": "komatsu-830e-rear-wheel-hub-rim-skim-od-taper",
+      "model": "830E",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Rim Skim OD & Taper",
+      "method": "Machining",
+      "sellPrice": 3080
+    },
+    {
+      "id": "komatsu-830e-rear-wheel-hub-laser-clad-od-taper",
+      "model": "830E",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Laser Clad OD & Taper",
+      "method": "Laser Cladding",
+      "sellPrice": 9450
+    },
+    {
+      "id": "komatsu-830e-rear-wheel-hub-laser-clad-outboard-bearing-bore",
+      "model": "830E",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Laser Clad Outboard Bearing Bore",
+      "method": "Laser Cladding",
+      "sellPrice": 5730
+    },
+    {
+      "id": "komatsu-830e-rear-wheel-hub-laser-clad-inboard-bearing-bore-seal-location-area",
+      "model": "830E",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Laser Clad Inboard Bearing Bore and Seal Location Area",
+      "method": "Laser Cladding",
+      "sellPrice": 6250
+    },
+    {
+      "id": "komatsu-830e-rear-wheel-hub-internal-weld-failure-repair-type-1",
+      "model": "830E",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Internal Weld Failure Repair - partial weld removal",
+      "method": "Laser Cladding Package",
+      "sellPrice": 41050
+    },
+    {
+      "id": "komatsu-830e-rear-wheel-hub-internal-weld-failure-repair-type-2",
+      "model": "830E",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Internal Weld Failure Repair - full weld removal",
+      "method": "Laser Cladding Package",
+      "sellPrice": 59175
+    },
+    {
+      "id": "komatsu-830e-outer-lower-seal-ring-felt-seal-location",
+      "model": "830E",
+      "item": "Outer/Lower Seal Ring",
+      "repairArea": "Felt Seal Location",
+      "method": "Metal Spray",
+      "sellPrice": 2750
+    },
+    {
+      "id": "komatsu-830e-finger-ring-interference-fit-location",
+      "model": "830E",
+      "item": "Finger Ring",
+      "repairArea": "Interference Fit Location",
+      "method": "Metal Spray",
+      "sellPrice": 2750
+    },
+    {
+      "id": "komatsu-830e-torque-tube-interference-fit-location",
+      "model": "830E",
+      "item": "Torque Tube",
+      "repairArea": "Interference Fit Location",
+      "method": "Metal Spray",
+      "sellPrice": 2750
+    },
+    {
+      "id": "komatsu-830e-torque-tube-paddle-pump-location",
+      "model": "830E",
+      "item": "Torque Tube",
+      "repairArea": "Paddle Pump Location",
+      "method": "Metal Spray",
+      "sellPrice": 4175
+    },
+    {
+      "id": "komatsu-830e-main-frame-inboard-bearing-journal",
+      "model": "830E",
+      "item": "Main Frame",
+      "repairArea": "Inboard Bearing Journal",
+      "method": "Laser Cladding",
+      "sellPrice": 6015
+    },
+    {
+      "id": "komatsu-830e-main-frame-inboard-paddle-pump-location",
+      "model": "830E",
+      "item": "Main Frame",
+      "repairArea": "Inboard Paddle Pump Location",
+      "method": "Laser Cladding",
+      "sellPrice": 6920
+    },
+    {
+      "id": "komatsu-830e-main-frame-outboard-bearing-journal",
+      "model": "830E",
+      "item": "Main Frame",
+      "repairArea": "Outboard Bearing Journal",
+      "method": "Laser Cladding",
+      "sellPrice": 6015
+    },
+    {
+      "id": "komatsu-830e-main-frame-repair-inner-stator-fit-location",
+      "model": "830E",
+      "item": "Main Frame",
+      "repairArea": "Repair Inner Stator Fit Location",
+      "method": "Laser Cladding",
+      "sellPrice": 6750
+    },
+    {
+      "id": "komatsu-830e-main-frame-planetary-bore-outer-each",
+      "model": "830E",
+      "item": "Main Frame",
+      "repairArea": "Planetary Bore Outer (Each)",
+      "method": "Machining",
+      "sellPrice": 5315
+    },
+    {
+      "id": "komatsu-830e-main-frame-planetary-bore-inner-each",
+      "model": "830E",
+      "item": "Main Frame",
+      "repairArea": "Planetary Bore Inner (Each)",
+      "method": "Machining",
+      "sellPrice": 4780
+    },
+    {
+      "id": "komatsu-830e-front-stub-axle-outer-bearing-area",
+      "model": "830E",
+      "item": "Front Stub Axle",
+      "repairArea": "Outer Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 2050
+    },
+    {
+      "id": "komatsu-830e-front-stub-axle-inner-bearing-area",
+      "model": "830E",
+      "item": "Front Stub Axle",
+      "repairArea": "Inner Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 2250
+    },
+    {
+      "id": "komatsu-830e-front-wheel-hub-inner-bearing-bore",
+      "model": "830E",
+      "item": "Front Wheel Hub",
+      "repairArea": "Inner Bearing Bore",
+      "method": "Laser Cladding",
+      "sellPrice": 2950
+    },
+    {
+      "id": "komatsu-830e-front-wheel-hub-outer-bearing-bore",
+      "model": "830E",
+      "item": "Front Wheel Hub",
+      "repairArea": "Outer Bearing Bore",
+      "method": "Laser Cladding",
+      "sellPrice": 2750
+    },
+    {
+      "id": "komatsu-830e-front-wheel-hub-duo-cone-location",
+      "model": "830E",
+      "item": "Front Wheel Hub",
+      "repairArea": "Duo Cone Location",
+      "method": "Laser Cladding",
+      "sellPrice": 2150
+    },
+    {
+      "id": "komatsu-930e-front-stub-axle-outer-bearing-area",
+      "model": "930E",
+      "item": "Front Stub Axle",
+      "repairArea": "Outer Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 2150
+    },
+    {
+      "id": "komatsu-930e-front-stub-axle-inner-bearing-area",
+      "model": "930E",
+      "item": "Front Stub Axle",
+      "repairArea": "Inner Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 2365
+    },
+    {
+      "id": "komatsu-930e-front-wheel-hub-inner-bearing-bore",
+      "model": "930E",
+      "item": "Front Wheel Hub",
+      "repairArea": "Inner Bearing Bore",
+      "method": "Laser Cladding",
+      "sellPrice": 3100
+    },
+    {
+      "id": "komatsu-930e-front-wheel-hub-outer-bearing-bore",
+      "model": "930E",
+      "item": "Front Wheel Hub",
+      "repairArea": "Outer Bearing Bore",
+      "method": "Laser Cladding",
+      "sellPrice": 2890
+    },
+    {
+      "id": "komatsu-930e-rear-spindle-outer-bearing-journal",
+      "model": "930E",
+      "item": "Rear Spindle",
+      "repairArea": "Outer Bearing Journal",
+      "method": "Laser Cladding",
+      "sellPrice": 4305
+    },
+    {
+      "id": "komatsu-930e-rear-spindle-rear-spindle-journal",
+      "model": "930E",
+      "item": "Rear Spindle",
+      "repairArea": "Inner Bearing Journal",
+      "method": "Laser Cladding",
+      "sellPrice": 4305
+    },
+    {
+      "id": "komatsu-930e-rear-spindle-match-machine-coupling-to-main-spindle",
+      "model": "930E",
+      "item": "Rear Spindle",
+      "repairArea": "Match Machine Coupling to Main Spindle",
+      "method": "Machining",
+      "sellPrice": 4250
+    },
+    {
+      "id": "komatsu-930e-rear-wheel-hub-outer-bearing-bore",
+      "model": "930E",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Outer Bearing Bore",
+      "method": "Laser Cladding",
+      "sellPrice": 4915
+    },
+    {
+      "id": "komatsu-930e-rear-wheel-hub-inner-bearing-bore",
+      "model": "930E",
+      "item": "Rear Wheel Hub",
+      "repairArea": "Inner Bearing Bore",
+      "method": "Laser Cladding",
+      "sellPrice": 4915
+    },
+    {
+      "id": "fmg-777-front-stub-axle-inner-bearing-area",
+      "model": "777",
+      "item": "Front Stub Axle",
+      "repairArea": "Inner Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1190
+    },
+    {
+      "id": "fmg-777-front-stub-axle-outer-bearing-area",
+      "model": "777",
+      "item": "Front Stub Axle",
+      "repairArea": "Outer Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1190
+    },
+    {
+      "id": "fmg-785-front-stub-axle-inner-bearing-area",
+      "model": "785",
+      "item": "Front Stub Axle",
+      "repairArea": "Inner Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1330
+    },
+    {
+      "id": "fmg-785-front-stub-axle-outer-bearing-area",
+      "model": "785",
+      "item": "Front Stub Axle",
+      "repairArea": "Outer Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1330
+    },
+    {
+      "id": "fmg-789-front-stub-axle-inner-bearing-area",
+      "model": "789",
+      "item": "Front Stub Axle",
+      "repairArea": "Inner Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1380
+    },
+    {
+      "id": "fmg-789-front-stub-axle-outer-bearing-area",
+      "model": "789",
+      "item": "Front Stub Axle",
+      "repairArea": "Outer Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1380
+    },
+    {
+      "id": "fmg-793c-front-stub-axle-inner-bearing-area",
+      "model": "793C",
+      "item": "Front Stub Axle",
+      "repairArea": "Inner Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1420
+    },
+    {
+      "id": "fmg-793c-front-stub-axle-outer-bearing-area",
+      "model": "793C",
+      "item": "Front Stub Axle",
+      "repairArea": "Outer Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1420
+    },
+    {
+      "id": "fmg-793f-front-stub-axle-inner-bearing-area",
+      "model": "793F",
+      "item": "Front Stub Axle",
+      "repairArea": "Inner Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1420
+    },
+    {
+      "id": "fmg-793f-front-stub-axle-outer-bearing-area",
+      "model": "793F",
+      "item": "Front Stub Axle",
+      "repairArea": "Outer Bearing Area",
+      "method": "Laser Cladding",
+      "sellPrice": 1420
+    },
+    {
+      "id": "fmg-777-front-wheel-hub-inner-bearing-area",
+      "model": "777",
+      "item": "Front Wheel Hub",
+      "repairArea": "Inner Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1510
+    },
+    {
+      "id": "fmg-777-front-wheel-hub-outer-bearing-area",
+      "model": "777",
+      "item": "Front Wheel Hub",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1510
+    },
+    {
+      "id": "fmg-785-front-wheel-hub-inner-bearing-area",
+      "model": "785",
+      "item": "Front Wheel Hub",
+      "repairArea": "Inner Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1620
+    },
+    {
+      "id": "fmg-785-front-wheel-hub-outer-bearing-area",
+      "model": "785",
+      "item": "Front Wheel Hub",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1620
+    },
+    {
+      "id": "fmg-789-front-wheel-hub-inner-bearing-area",
+      "model": "789",
+      "item": "Front Wheel Hub",
+      "repairArea": "Inner Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1710
+    },
+    {
+      "id": "fmg-789-front-wheel-hub-outer-bearing-area",
+      "model": "789",
+      "item": "Front Wheel Hub",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1710
+    },
+    {
+      "id": "fmg-793c-front-wheel-hub-inner-bearing-area",
+      "model": "793C",
+      "item": "Front Wheel Hub",
+      "repairArea": "Inner Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1800
+    },
+    {
+      "id": "fmg-793c-front-wheel-hub-outer-bearing-area",
+      "model": "793C",
+      "item": "Front Wheel Hub",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1800
+    },
+    {
+      "id": "fmg-793f-front-wheel-hub-inner-bearing-area",
+      "model": "793F",
+      "item": "Front Wheel Hub",
+      "repairArea": "Inner Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1800
+    },
+    {
+      "id": "fmg-793f-front-wheel-hub-outer-bearing-area",
+      "model": "793F",
+      "item": "Front Wheel Hub",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1800
+    },
+    {
+      "id": "fmg-777-front-brake-anchor-inner-seal-area",
+      "model": "777",
+      "item": "Front Brake Anchor",
+      "repairArea": "Inner Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 1610
+    },
+    {
+      "id": "fmg-777-front-brake-anchor-outer-bearing-area",
+      "model": "777",
+      "item": "Front Brake Anchor",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1610
+    },
+    {
+      "id": "fmg-785-front-brake-anchor-inner-seal-area",
+      "model": "785",
+      "item": "Front Brake Anchor",
+      "repairArea": "Inner Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 1650
+    },
+    {
+      "id": "fmg-785-front-brake-anchor-outer-bearing-area",
+      "model": "785",
+      "item": "Front Brake Anchor",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1650
+    },
+    {
+      "id": "fmg-789-front-brake-anchor-inner-seal-area",
+      "model": "789",
+      "item": "Front Brake Anchor",
+      "repairArea": "Inner Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 1740
+    },
+    {
+      "id": "fmg-789-front-brake-anchor-outer-bearing-area",
+      "model": "789",
+      "item": "Front Brake Anchor",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1740
+    },
+    {
+      "id": "fmg-793c-front-brake-anchor-inner-seal-area",
+      "model": "793C",
+      "item": "Front Brake Anchor",
+      "repairArea": "Inner Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 1840
+    },
+    {
+      "id": "fmg-793c-front-brake-anchor-outer-bearing-area",
+      "model": "793C",
+      "item": "Front Brake Anchor",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1840
+    },
+    {
+      "id": "fmg-793f-front-brake-anchor-inner-seal-area",
+      "model": "793F",
+      "item": "Front Brake Anchor",
+      "repairArea": "Inner Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 2070
+    },
+    {
+      "id": "fmg-793f-front-brake-anchor-outer-bearing-area",
+      "model": "793F",
+      "item": "Front Brake Anchor",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 2070
+    },
+    {
+      "id": "fmg-777-rear-brake-anchor-inner-seal-area",
+      "model": "777",
+      "item": "Rear Brake Anchor",
+      "repairArea": "Inner Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 1610
+    },
+    {
+      "id": "fmg-777-rear-brake-anchor-outer-bearing-area",
+      "model": "777",
+      "item": "Rear Brake Anchor",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1610
+    },
+    {
+      "id": "fmg-785-rear-brake-anchor-inner-seal-area",
+      "model": "785",
+      "item": "Rear Brake Anchor",
+      "repairArea": "Inner Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 1650
+    },
+    {
+      "id": "fmg-785-rear-brake-anchor-outer-bearing-area",
+      "model": "785",
+      "item": "Rear Brake Anchor",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1650
+    },
+    {
+      "id": "fmg-789-rear-brake-anchor-inner-seal-area",
+      "model": "789",
+      "item": "Rear Brake Anchor",
+      "repairArea": "Inner Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 1740
+    },
+    {
+      "id": "fmg-789-rear-brake-anchor-outer-bearing-area",
+      "model": "789",
+      "item": "Rear Brake Anchor",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1740
+    },
+    {
+      "id": "fmg-793c-rear-brake-anchor-inner-seal-area",
+      "model": "793C",
+      "item": "Rear Brake Anchor",
+      "repairArea": "Inner Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 1840
+    },
+    {
+      "id": "fmg-793c-rear-brake-anchor-outer-bearing-area",
+      "model": "793C",
+      "item": "Rear Brake Anchor",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 1840
+    },
+    {
+      "id": "fmg-793f-rear-brake-anchor-inner-seal-area",
+      "model": "793F",
+      "item": "Rear Brake Anchor",
+      "repairArea": "Inner Seal Area",
+      "method": "Metal Spray",
+      "sellPrice": 2070
+    },
+    {
+      "id": "fmg-793f-rear-brake-anchor-outer-bearing-area",
+      "model": "793F",
+      "item": "Rear Brake Anchor",
+      "repairArea": "Outer Bearing Area",
+      "method": "Metal Spray",
+      "sellPrice": 2070
+    },
+    {
+      "id": "manual-fixed-3884d326-1056-45e6-b754-8e2c648b71c3-repair-threads",
+      "model": "THREAD REPAIRS",
+      "item": "M10-M16",
+      "repairArea": "Repair Threads",
+      "areaKind": "other",
+      "method": "Repair Threads",
+      "sellPrice": 625
+    }
+  ],
+  "yearlyIncreaseLog": [],
+  "updatedAt": "2026-06-30T01:22:41.690Z"
+}
