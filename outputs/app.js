@@ -211,7 +211,12 @@ const defaultFixedRepairItems = [
 let fixedRepairItems = mergeDefaultFixedRepairItems(load(STORAGE_KEYS.fixedRepairs, defaultFixedRepairItems));
 let parts = mergeDefaultParts(normalizeParts(load(STORAGE_KEYS.parts, sampleParts)));
 let quoteItems = [];
-let addOnPrices = load(STORAGE_KEYS.addOns, { measure: 165, cleanPack: 247.5, weldRepairs: 0, weldRepairsHours: "", reCracktest: 136.5, delivery: 150, additional: 0, consumablesPercent: 5 });
+let addOnPrices = {
+  ...load(STORAGE_KEYS.addOns, { measure: 165, cleanPack: 247.5, weldRepairs: 0, weldRepairsHours: "", reCracktest: 136.5, delivery: 150, additional: 0, consumablesPercent: 5 }),
+  additional: 0,
+  weldRepairs: 0,
+  weldRepairsHours: ""
+};
 let quoteMeta = { customerName: "", initialQuoteNumber: "", customerWorkOrder: "" };
 let collapsedModels = load(STORAGE_KEYS.collapsedModels, { parts: {}, fixed: {} });
 let yearlyIncreaseLog = load(STORAGE_KEYS.yearlyIncreaseLog, []);
