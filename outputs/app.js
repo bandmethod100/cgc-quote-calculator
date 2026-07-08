@@ -1373,7 +1373,7 @@ function groupFixedRepairItems(items) {
   items.forEach((item) => {
     const side = item.areaKind || repairAreaSide(item.repairArea);
     const pairedGroup = pairedRepairGroup(item);
-    const groupingArea = pairedGroup ? pairedGroup.key : side ? "paired-areas" : item.repairArea;
+    const groupingArea = pairedGroup ? pairedGroup.key : side === "other" ? item.repairArea : side ? "paired-areas" : item.repairArea;
     const key = `${item.model}|${item.item}|${item.method}|${groupingArea}`.toLowerCase();
     const group = groupsByKey.get(key) || {
       model: item.model,

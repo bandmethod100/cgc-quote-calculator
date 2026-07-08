@@ -912,13 +912,15 @@ td.percent {
 
 .row-actions button {
   min-height: 30px;
-  padding: 6px 8px;
+  padding: 6px 7px;
   border-radius: 8px;
   background: transparent;
   color: var(--ink);
   border: 1px solid #dbe4eb;
-  font-size: 0.81rem;
+  font-size: 0.74rem;
   font-weight: 700;
+  line-height: 1.12;
+  overflow-wrap: anywhere;
   white-space: normal;
 }
 
