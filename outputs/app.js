@@ -1401,7 +1401,7 @@ function groupFixedRepairItems(items) {
     const sortedItems = group.items.sort((a, b) => fixedAreaSort(a.repairArea, a.areaKind) - fixedAreaSort(b.repairArea, b.areaKind));
     const hasInnerOuter = group.innerItem && group.outerItem;
     const hasInnerOuterBoth = hasInnerOuter && group.bothItem;
-    const sideItems = [group.innerItem, group.outerItem, group.bothItem, group.sealItem, ...group.otherItems].filter(Boolean);
+    const sideItems = [group.innerItem, group.outerItem, group.sealItem, group.bothItem, ...group.otherItems].filter(Boolean);
     return {
       ...group,
       items: sortedItems,
@@ -1438,13 +1438,12 @@ function fixedActionButtons(group) {
   }
 
   if (group.innerItem && group.outerItem) {
-    const innerLabel = group.item.toLowerCase().includes("brake anchor") ? "Seal" : "Inner";
     const bothIds = group.bothItem ? group.bothItem.id : `${group.innerItem.id},${group.outerItem.id}`;
     return `
-      <button type="button" data-action="quote-fixed-set" data-fixed-ids="${group.innerItem.id}">${innerLabel}</button>
+      <button type="button" data-action="quote-fixed-set" data-fixed-ids="${group.innerItem.id}">Inner</button>
       <button type="button" data-action="quote-fixed-set" data-fixed-ids="${group.outerItem.id}">Outer</button>
-      <button type="button" data-action="quote-fixed-set" data-fixed-ids="${bothIds}">Both</button>
       ${group.sealItem ? `<button type="button" data-action="quote-fixed-set" data-fixed-ids="${group.sealItem.id}">Seal</button>` : ""}
+      <button type="button" data-action="quote-fixed-set" data-fixed-ids="${bothIds}">Both</button>
       ${group.otherItems.map((item) => `<button type="button" data-action="quote-fixed-set" data-fixed-ids="${item.id}">${escapeHtml(item.repairArea)}</button>`).join("")}
     `;
   }
@@ -1480,10 +1479,10 @@ function fixedButtonLabel(item) {
 
 function repairAreaSide(repairArea) {
   const area = repairArea.toLowerCase();
-  if (area.includes("seal")) return "seal";
   if (area.startsWith("inner ")) return "inner";
   if (area.startsWith("outer ")) return "outer";
   if (area.startsWith("both ")) return "both";
+  if (area.includes("seal")) return "seal";
   return "";
 }
 
