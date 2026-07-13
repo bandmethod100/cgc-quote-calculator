@@ -643,6 +643,26 @@ function save() {
   localStorage.setItem(STORAGE_KEYS.yearlyIncreaseLog, JSON.stringify(yearlyIncreaseLog));
 }
 
+function emptyQuoteMeta() {
+  return { customerName: "", initialQuoteNumber: "", customerWorkOrder: "" };
+}
+
+function syncQuoteMetaFields() {
+  if (els.customerName) els.customerName.value = quoteMeta.customerName || "";
+  if (els.initialQuoteNumber) els.initialQuoteNumber.value = quoteMeta.initialQuoteNumber || "";
+  if (els.customerWorkOrder) els.customerWorkOrder.value = quoteMeta.customerWorkOrder || "";
+}
+
+function clearCurrentQuote() {
+  quoteItems = [];
+  quoteMeta = emptyQuoteMeta();
+  localStorage.removeItem(STORAGE_KEYS.quote);
+  localStorage.removeItem(STORAGE_KEYS.quoteMeta);
+  save();
+  render();
+  syncQuoteMetaFields();
+}
+
 function sharedPricingState() {
   return {
     parts,
@@ -3591,13 +3611,7 @@ els.quoteList.addEventListener("click", (event) => {
 });
 
 els.clearQuote.addEventListener("click", () => {
-  quoteItems = [];
-  quoteMeta = { customerName: "", initialQuoteNumber: "", customerWorkOrder: "" };
-  els.customerName.value = "";
-  els.initialQuoteNumber.value = "";
-  els.customerWorkOrder.value = "";
-  save();
-  render();
+  clearCurrentQuote();
 });
 
 els.oneValueQuote.addEventListener("click", () => {
@@ -3616,9 +3630,7 @@ els.reCracktestPrice.value = addOnPrices.reCracktest ?? defaultAddOnPrices.reCra
 els.cleanPackPrice.value = addOnPrices.cleanPack ?? 247.5;
 els.deliveryPrice.value = addOnPrices.delivery ?? 150;
 els.consumablesPercent.value = addOnPrices.consumablesPercent ?? 5;
-els.customerName.value = quoteMeta.customerName ?? "";
-els.initialQuoteNumber.value = quoteMeta.initialQuoteNumber ?? "";
-els.customerWorkOrder.value = quoteMeta.customerWorkOrder ?? "";
+syncQuoteMetaFields();
 
 els.customerName.addEventListener("input", () => {
   quoteMeta.customerName = els.customerName.value.trim();
