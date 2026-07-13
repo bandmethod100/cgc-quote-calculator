@@ -3591,8 +3591,12 @@ els.quoteList.addEventListener("click", (event) => {
 });
 
 els.clearQuote.addEventListener("click", () => {
-  if (!quoteItems.length) return;
   quoteItems = [];
+  quoteMeta = { customerName: "", initialQuoteNumber: "", customerWorkOrder: "" };
+  els.customerName.value = "";
+  els.initialQuoteNumber.value = "";
+  els.customerWorkOrder.value = "";
+  save();
   render();
 });
 
