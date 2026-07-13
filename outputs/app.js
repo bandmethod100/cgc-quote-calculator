@@ -567,18 +567,55 @@ function mergeDefaultParts(savedParts) {
 }
 
 function mergeDefaultFixedRepairItems(savedItems) {
-  const savedById = new Map((savedItems || []).map((item) => [item.id, item]));
+  const cleanedSavedItems = (savedItems || []).map(cleanFixedRepairItem);
+  const savedById = new Map(cleanedSavedItems.map((item) => [item.id, item]));
   const mergedItems = defaultFixedRepairItems.map((item) => ({
     ...item,
     ...(savedById.get(item.id) || {})
-  }));
+  })).map(cleanFixedRepairItem);
   const defaultIds = new Set(defaultFixedRepairItems.map((item) => item.id));
-  (savedItems || []).forEach((item) => {
+  cleanedSavedItems.forEach((item) => {
     if (!defaultIds.has(item.id)) {
-      mergedItems.push(item);
+      mergedItems.push(cleanFixedRepairItem(item));
     }
   });
   return mergedItems;
+}
+
+function cleanFixedRepairItem(item) {
+  const fixedItem = { ...item };
+  const repairArea = String(fixedItem.repairArea || "").trim();
+  const idSide = fixedRepairIdSide(fixedItem.id);
+  const textSide = repairAreaSide(repairArea);
+  const itemName = String(fixedItem.item || "").toLowerCase();
+
+  if (itemName.includes("brake anchor")) {
+    if (textSide === "inner" || idSide === "inner") {
+      fixedItem.areaKind = "inner";
+      if (!/^inner\b/i.test(repairArea) || /seal/i.test(repairArea)) {
+        fixedItem.repairArea = "Inner Bearing Area";
+      }
+      return fixedItem;
+    }
+    if (textSide === "outer" || idSide === "outer") {
+      fixedItem.areaKind = "outer";
+      if (!/^outer\b/i.test(repairArea) || /seal/i.test(repairArea)) {
+        fixedItem.repairArea = "Outer Bearing Area";
+      }
+      return fixedItem;
+    }
+    if (textSide === "seal" || idSide === "seal" || fixedItem.areaKind === "seal") {
+      fixedItem.areaKind = "seal";
+      fixedItem.repairArea = "Seal Area";
+      return fixedItem;
+    }
+  }
+
+  if (["inner", "outer", "both", "seal", "other"].includes(textSide)) {
+    fixedItem.areaKind = textSide;
+  }
+
+  return fixedItem;
 }
 
 function extractModel(description) {
@@ -1371,7 +1408,7 @@ function groupFixedRepairItems(items) {
   const groupsByKey = new Map();
 
   items.forEach((item) => {
-    const side = item.areaKind || repairAreaSide(item.repairArea);
+    const side = fixedRepairSide(item);
     const pairedGroup = pairedRepairGroup(item);
     const groupingArea = pairedGroup ? pairedGroup.key : side === "other" ? item.repairArea : side ? "paired-areas" : item.repairArea;
     const key = `${item.model}|${item.item}|${item.method}|${groupingArea}`.toLowerCase();
@@ -1398,7 +1435,7 @@ function groupFixedRepairItems(items) {
   });
 
   return Array.from(groupsByKey.values()).map((group) => {
-    const sortedItems = group.items.sort((a, b) => fixedAreaSort(a.repairArea, a.areaKind) - fixedAreaSort(b.repairArea, b.areaKind));
+    const sortedItems = group.items.sort((a, b) => fixedAreaSort(a) - fixedAreaSort(b));
     const hasInnerOuter = group.innerItem && group.outerItem;
     const hasInnerOuterBoth = hasInnerOuter && group.bothItem;
     const sideItems = [group.innerItem, group.outerItem, group.sealItem, group.bothItem, ...group.otherItems].filter(Boolean);
@@ -1465,10 +1502,11 @@ function pairedRepairGroup(item) {
 
 function fixedButtonLabel(item) {
   if (item.areaKind === "other") return item.repairArea;
-  if (repairAreaSide(item.repairArea) === "inner") return "Inner";
-  if (repairAreaSide(item.repairArea) === "outer") return "Outer";
-  if (repairAreaSide(item.repairArea) === "both") return "Both";
-  if (repairAreaSide(item.repairArea) === "seal") return "Seal";
+  const side = fixedRepairSide(item);
+  if (side === "inner") return "Inner";
+  if (side === "outer") return "Outer";
+  if (side === "both") return "Both";
+  if (side === "seal") return "Seal";
   if (item.item === "Torque Tube" && item.repairArea === "Interference Fit Location") return "Interference";
   if (item.item === "Torque Tube" && item.repairArea === "Paddle Pump Location") return "Paddle Pump";
   if (item.item === "Front Wheel Hub" && item.repairArea === "Inner Bearing Bore") return "Inner";
@@ -1478,7 +1516,7 @@ function fixedButtonLabel(item) {
 }
 
 function repairAreaSide(repairArea) {
-  const area = repairArea.toLowerCase();
+  const area = String(repairArea || "").toLowerCase();
   if (area.startsWith("inner ")) return "inner";
   if (area.startsWith("outer ")) return "outer";
   if (area.startsWith("both ")) return "both";
@@ -1486,8 +1524,29 @@ function repairAreaSide(repairArea) {
   return "";
 }
 
-function fixedAreaSort(repairArea, areaKind = "") {
-  const side = areaKind || repairAreaSide(repairArea);
+function fixedRepairIdSide(id) {
+  const value = String(id || "").toLowerCase();
+  if (value.includes("-inner-")) return "inner";
+  if (value.includes("-outer-")) return "outer";
+  if (value.includes("-both-")) return "both";
+  if (value.includes("-seal-")) return "seal";
+  return "";
+}
+
+function fixedRepairSide(item) {
+  const textSide = repairAreaSide(item?.repairArea);
+  const idSide = fixedRepairIdSide(item?.id);
+  const storedSide = item?.areaKind || "";
+  if (["inner", "outer", "both"].includes(textSide)) return textSide;
+  if (["inner", "outer", "both"].includes(idSide)) return idSide;
+  if (["inner", "outer", "both"].includes(storedSide)) return storedSide;
+  if (storedSide === "other") return "other";
+  if (textSide === "seal" || idSide === "seal" || storedSide === "seal") return "seal";
+  return storedSide || textSide;
+}
+
+function fixedAreaSort(item) {
+  const side = fixedRepairSide(item);
   if (side === "inner") return 1;
   if (side === "outer") return 2;
   if (side === "both") return 3;
@@ -1497,7 +1556,7 @@ function fixedAreaSort(repairArea, areaKind = "") {
 }
 
 function fixedAreaIdentityKey(item) {
-  const side = item.areaKind || repairAreaSide(item.repairArea) || "";
+  const side = fixedRepairSide(item) || "";
   if (side === "other") return `other-${String(item.repairArea || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
   return side || String(item.repairArea || "").trim().toLowerCase();
 }
@@ -1714,7 +1773,7 @@ function fillFixedRepairForm(group) {
   els.fixedMethodInput.value = group.method;
 
   items.forEach((item) => {
-    const side = item.areaKind || repairAreaSide(item.repairArea);
+    const side = fixedRepairSide(item);
     if (side === "inner") {
       setFixedAreaOption("inner");
       els.fixedAreaInput.value = stripAreaPrefix(item.repairArea, "inner") || els.fixedAreaInput.value || "Bearing Area";
