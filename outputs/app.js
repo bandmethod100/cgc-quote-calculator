@@ -2068,6 +2068,14 @@ function quoteItemRootName(item) {
   return [item.model, description].filter(Boolean).join(" ");
 }
 
+function quoteItemRootKey(item) {
+  return quoteItemRootName(item)
+    .toLowerCase()
+    .replace(/\bw\/hub\b/g, "wheel hub")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function quoteLineLabel(item) {
   if (isConsumablesItem(item)) return "Consumables";
   if (item.serviceType === "manual-fixed") return item.serviceLabel;
@@ -2086,6 +2094,14 @@ function isConsumablesItem(item) {
   return item.serviceType === "manual-fixed" && item.serviceLabel.startsWith("Consumables");
 }
 
+function isDeliveryItem(item) {
+  return item.serviceType === "manual-fixed" && item.serviceLabel === "Delivery";
+}
+
+function isStandaloneQuoteItem(item) {
+  return isConsumablesItem(item) || isDeliveryItem(item);
+}
+
 function buildQuoteSections() {
   const sections = [];
   let currentSection = null;
@@ -2093,7 +2109,7 @@ function buildQuoteSections() {
   quoteItems.forEach((item) => {
     const startsSection = item.serviceType === "manual-fixed" && item.serviceLabel === "Measure";
 
-    if (isConsumablesItem(item)) {
+    if (isStandaloneQuoteItem(item)) {
       if (currentSection?.items.length) sections.push(currentSection);
       sections.push({ heading: "", items: [item], standalone: true });
       currentSection = null;
@@ -2139,20 +2155,22 @@ function buildOneValueQuoteSections() {
   };
 
   quoteItems.forEach((item) => {
-    if (isConsumablesItem(item)) {
+    if (isStandaloneQuoteItem(item)) {
       flushSection();
       sections.push({ heading: "", items: [item], standalone: true });
       return;
     }
 
     const rootName = quoteItemRootName(item);
+    const rootKey = quoteItemRootKey(item);
     if (rootName) {
-      if (currentSection?.heading && currentSection.heading !== rootName) flushSection();
-      if (!currentSection) currentSection = { heading: rootName, items: [] };
+      if (currentSection?.rootKey && currentSection.rootKey !== rootKey) flushSection();
+      if (!currentSection) currentSection = { heading: rootName, rootKey, items: [] };
       if (!currentSection.heading) currentSection.heading = rootName;
+      if (!currentSection.rootKey) currentSection.rootKey = rootKey;
     }
 
-    if (!currentSection) currentSection = { heading: rootName || "", items: [] };
+    if (!currentSection) currentSection = { heading: rootName || "", rootKey: rootKey || "", items: [] };
     currentSection.items.push(item);
 
     if (isCleanPackQuoteItem(item)) flushSection();
@@ -2222,8 +2240,8 @@ function buildQuotePrintHtml(oneValue = false) {
           const sell = quoteUnitSell(item);
           const quantity = quoteQuantity(item);
           const lineTotal = quoteLineTotal(item);
-          const descClass = isConsumablesItem(item) ? "line-desc standalone-desc" : "line-desc";
-          const rowClass = isConsumablesItem(item) ? ` class="standalone-row"` : "";
+          const descClass = isStandaloneQuoteItem(item) ? "line-desc standalone-desc" : "line-desc";
+          const rowClass = isStandaloneQuoteItem(item) ? ` class="standalone-row"` : "";
           return `
             <tr${rowClass}>
               <td class="${descClass}">${escapeHtml(quoteLineLabel(item))}</td>
