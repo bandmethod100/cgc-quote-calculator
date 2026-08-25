@@ -2084,10 +2084,19 @@ function quoteLineLabel(item) {
   if (isThreadRepairQuoteItem(item)) return "Repair Threads";
 
   const repairArea = (item.description || "").split(" - ").slice(1).join(" - ").trim();
+  if (isModRepairLabel(repairArea)) return modRepairQuoteLabel(repairArea);
   if (!repairArea) return item.serviceLabel;
   if (item.serviceLabel === "Laser Cladding") return `Laser Clad ${repairArea}`;
   if (item.serviceLabel === "Laser Cladding Package") return `Laser Clad Package ${repairArea}`;
   return `${item.serviceLabel} ${repairArea}`;
+}
+
+function isModRepairLabel(value) {
+  return /\bmod\b/i.test(String(value || ""));
+}
+
+function modRepairQuoteLabel(value) {
+  return `Perform ${String(value || "").trim()} As Per SIS Document`;
 }
 
 function isConsumablesItem(item) {
@@ -2188,6 +2197,7 @@ function oneValueBreakdownLabel(item) {
   if (isCleanPackQuoteItem(item)) return ["Clean", "Pack"];
   if (item.serviceType === "fixed-repair") {
     const repairArea = (item.description || "").split(" - ").slice(1).join(" - ").trim();
+    if (isModRepairLabel(repairArea)) return modRepairQuoteLabel(repairArea);
     return repairArea ? `Repair ${repairArea}` : quoteLineLabel(item);
   }
   return quoteLineLabel(item);
