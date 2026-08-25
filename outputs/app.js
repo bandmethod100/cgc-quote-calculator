@@ -224,7 +224,7 @@ if (addOnPrices.reCracktest === 136.5) {
   addOnPrices.reCracktest = defaultAddOnPrices.reCracktest;
 }
 let quoteMeta = { customerName: "", initialQuoteNumber: "", customerWorkOrder: "" };
-let collapsedModels = load(STORAGE_KEYS.collapsedModels, { parts: {}, fixed: {} });
+let collapsedModels = { parts: {}, fixed: {} };
 let yearlyIncreaseLog = load(STORAGE_KEYS.yearlyIncreaseLog, []);
 let selectedPriceFileIds = new Set();
 let editingFixedPriceId = "";
@@ -982,7 +982,7 @@ function quoteLineTotal(item) {
 }
 
 function isModelCollapsed(tableKey, model) {
-  return Boolean(collapsedModels?.[tableKey]?.[model]);
+  return collapsedModels?.[tableKey]?.[model] !== false;
 }
 
 function toggleModel(tableKey, model) {
