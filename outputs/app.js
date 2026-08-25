@@ -1930,7 +1930,39 @@ function addFixedQuoteItem(item) {
   render();
 }
 
+function isBrakePistonInnerOuterSet(items) {
+  if (items.length !== 2) return false;
+  const [first] = items;
+  if (!items.every((item) => String(item.item || "").toLowerCase() === "brake piston")) return false;
+  if (!items.every((item) => item.model === first.model && item.item === first.item && item.method === first.method)) return false;
+  const sides = new Set(items.map((item) => fixedRepairSide(item)));
+  return sides.has("inner") && sides.has("outer");
+}
+
+function addBrakePistonBothQuoteItem(items) {
+  const [first] = items;
+  const totalSell = items.reduce((sum, item) => sum + (Number(item.sellPrice) || 0), 0);
+  quoteItems.push({
+    id: createId(),
+    partId: `${first.model}-${first.item}-both`.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+    serviceType: "fixed-repair",
+    serviceLabel: first.method,
+    fixedPrice: true,
+    model: first.model,
+    description: `${first.item} - Inner & Outer Seal Area`,
+    baseCost: totalSell * 0.95,
+    sellPercent: 0,
+    quantity: 1
+  });
+}
+
 function addFixedQuoteItems(items) {
+  if (isBrakePistonInnerOuterSet(items)) {
+    addBrakePistonBothQuoteItem(items);
+    render();
+    return;
+  }
+
   items.forEach((item) => {
     quoteItems.push({
       id: createId(),
