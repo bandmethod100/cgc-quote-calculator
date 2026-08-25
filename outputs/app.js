@@ -2222,7 +2222,7 @@ function buildQuotePrintHtml(oneValue = false) {
   };
   const quoteSections = oneValue ? buildOneValueQuoteSections() : buildQuoteSections();
   const rows = quoteSections
-    .map((section) => {
+    .map((section, sectionIndex, allSections) => {
       if (oneValue && !section.standalone && section.heading) {
         const sectionTotal = quoteSectionTotal(section);
         return `
@@ -2240,8 +2240,11 @@ function buildQuotePrintHtml(oneValue = false) {
           const sell = quoteUnitSell(item);
           const quantity = quoteQuantity(item);
           const lineTotal = quoteLineTotal(item);
-          const descClass = isStandaloneQuoteItem(item) ? "line-desc standalone-desc" : "line-desc";
-          const rowClass = isStandaloneQuoteItem(item) ? ` class="standalone-row"` : "";
+          const isStandalone = isStandaloneQuoteItem(item);
+          const previousSection = allSections[sectionIndex - 1];
+          const previousWasStandalone = Boolean(section.standalone && previousSection?.standalone);
+          const descClass = isStandalone ? "line-desc standalone-desc" : "line-desc";
+          const rowClass = isStandalone ? ` class="standalone-row${previousWasStandalone ? " standalone-row-follow" : ""}"` : "";
           return `
             <tr${rowClass}>
               <td class="${descClass}">${escapeHtml(quoteLineLabel(item))}</td>
@@ -2432,6 +2435,10 @@ function buildQuotePrintHtml(oneValue = false) {
           .standalone-row td {
             padding-top: 18px;
             border-top: 2px solid #111827;
+          }
+          .standalone-row-follow td {
+            padding-top: 12px;
+            border-top: 0;
           }
           .money {
             text-align: right;
