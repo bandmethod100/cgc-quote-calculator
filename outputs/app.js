@@ -2121,8 +2121,69 @@ function buildQuoteSections() {
   });
 }
 
+function isCleanPackQuoteItem(item) {
+  return item.serviceType === "manual-fixed" && item.serviceLabel === "Clean & Pack";
+}
+
+function buildOneValueQuoteSections() {
+  const sections = [];
+  let currentSection = null;
+
+  const flushSection = () => {
+    if (!currentSection?.items.length) return;
+    sections.push({
+      heading: currentSection.heading || `Quote Item ${sections.length + 1}`,
+      items: currentSection.items
+    });
+    currentSection = null;
+  };
+
+  quoteItems.forEach((item) => {
+    if (isConsumablesItem(item)) {
+      flushSection();
+      sections.push({ heading: "", items: [item], standalone: true });
+      return;
+    }
+
+    const rootName = quoteItemRootName(item);
+    if (rootName) {
+      if (currentSection?.heading && currentSection.heading !== rootName) flushSection();
+      if (!currentSection) currentSection = { heading: rootName, items: [] };
+      if (!currentSection.heading) currentSection.heading = rootName;
+    }
+
+    if (!currentSection) currentSection = { heading: rootName || "", items: [] };
+    currentSection.items.push(item);
+
+    if (isCleanPackQuoteItem(item)) flushSection();
+  });
+
+  flushSection();
+  return sections;
+}
+
 function quoteSectionTotal(section) {
   return section.items.reduce((total, item) => total + quoteLineTotal(item), 0);
+}
+
+function oneValueBreakdownLabel(item) {
+  if (isCleanPackQuoteItem(item)) return ["Clean", "Pack"];
+  if (item.serviceType === "fixed-repair") {
+    const repairArea = (item.description || "").split(" - ").slice(1).join(" - ").trim();
+    return repairArea ? `Repair ${repairArea}` : quoteLineLabel(item);
+  }
+  return quoteLineLabel(item);
+}
+
+function oneValueDescriptionHtml(section) {
+  const breakdown = section.items
+    .flatMap((item) => oneValueBreakdownLabel(item))
+    .filter(Boolean)
+    .join("\n");
+  return `
+    <div class="one-value-title">${escapeHtml(section.heading)}</div>
+    <div class="one-value-breakdown">${escapeHtml(breakdown)}</div>
+  `;
 }
 
 function buildQuotePrintHtml(oneValue = false) {
@@ -2141,13 +2202,14 @@ function buildQuotePrintHtml(oneValue = false) {
     email: "workshop@cgcengineering.com.au",
     phone: "08 9379 2000"
   };
-  const rows = buildQuoteSections()
+  const quoteSections = oneValue ? buildOneValueQuoteSections() : buildQuoteSections();
+  const rows = quoteSections
     .map((section) => {
       if (oneValue && !section.standalone && section.heading) {
         const sectionTotal = quoteSectionTotal(section);
         return `
           <tr>
-            <td class="line-desc">${escapeHtml(section.heading)}</td>
+            <td class="line-desc one-value-desc">${oneValueDescriptionHtml(section)}</td>
             <td class="money">${money(sectionTotal)}</td>
             <td class="qty">1</td>
             <td class="money">${money(sectionTotal)}</td>
@@ -2332,6 +2394,18 @@ function buildQuotePrintHtml(oneValue = false) {
           }
           .line-desc {
             padding-left: 18px;
+          }
+          .one-value-desc {
+            padding-left: 0;
+          }
+          .one-value-title {
+            margin-bottom: 6px;
+            font-weight: 800;
+          }
+          .one-value-breakdown {
+            color: #374151;
+            line-height: 1.45;
+            white-space: pre-line;
           }
           .standalone-desc {
             padding-left: 0;
