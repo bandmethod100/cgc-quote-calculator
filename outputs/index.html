@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CGC Quote Calculator</title>
-    <link rel="stylesheet" href="styles.css?v=20260826-06">
+    <link rel="stylesheet" href="styles.css?v=20260826-07">
   </head>
   <body class="auth-locked">
     <section class="login-screen" id="loginScreen" aria-labelledby="loginTitle">
@@ -258,6 +258,15 @@
               </select>
               <button class="primary-btn" id="addConsumables" type="button">Add Consumables</button>
             </div>
+
+            <div class="quote-addon compact-addon service-addon">
+              <span class="addon-label">Admin</span>
+              <span class="currency-input">
+                <span>$</span>
+                <input id="adminPrice" type="number" min="0" step="0.01" value="87.50">
+              </span>
+              <button class="primary-btn" id="addAdmin" type="button">Add Admin</button>
+            </div>
           </div>
         </div>
 
@@ -444,6 +453,6 @@
       </tr>
     </template>
 
-    <script src="app.js?v=20260826-06"></script>
+    <script src="app.js?v=20260826-07"></script>
   </body>
 </html>

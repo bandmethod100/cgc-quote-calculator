@@ -58,7 +58,7 @@ const currency = new Intl.NumberFormat("en-AU", {
 const sellPercentOptions = [0, 5, 8, 10, 15, 20, 25, 30, 35];
 const defaultCrackTestBaseCost = 155;
 const defaultCrackTestSellPercent = 15;
-const defaultAddOnPrices = { measure: 165, cleanPack: 247.5, weldRepairs: 0, weldRepairsHours: "", reCracktest: 178.5, delivery: 150, additional: 0, consumablesPercent: 5 };
+const defaultAddOnPrices = { measure: 165, cleanPack: 247.5, weldRepairs: 0, weldRepairsHours: "", reCracktest: 178.5, delivery: 150, admin: 87.5, additional: 0, consumablesPercent: 5 };
 const weldRepairsHourlyRate = 165;
 const threadRepairPricingScales = {
   "m10-m16": {
@@ -259,6 +259,8 @@ const els = {
   addDelivery: document.querySelector("#addDelivery"),
   consumablesPercent: document.querySelector("#consumablesPercent"),
   addConsumables: document.querySelector("#addConsumables"),
+  adminPrice: document.querySelector("#adminPrice"),
+  addAdmin: document.querySelector("#addAdmin"),
   partSearch: document.querySelector("#partSearch"),
   fixedSearch: document.querySelector("#fixedSearch"),
   partsToggleAll: document.querySelector("#partsToggleAll"),
@@ -2107,8 +2109,12 @@ function isDeliveryItem(item) {
   return item.serviceType === "manual-fixed" && item.serviceLabel === "Delivery";
 }
 
+function isAdminItem(item) {
+  return item.serviceType === "manual-fixed" && item.serviceLabel === "Admin";
+}
+
 function isStandaloneQuoteItem(item) {
-  return isConsumablesItem(item) || isDeliveryItem(item);
+  return isConsumablesItem(item) || isDeliveryItem(item) || isAdminItem(item);
 }
 
 function buildQuoteSections() {
@@ -3771,6 +3777,7 @@ els.reCracktestPrice.value = addOnPrices.reCracktest ?? defaultAddOnPrices.reCra
 els.cleanPackPrice.value = addOnPrices.cleanPack ?? 247.5;
 els.deliveryPrice.value = addOnPrices.delivery ?? 150;
 els.consumablesPercent.value = addOnPrices.consumablesPercent ?? 5;
+els.adminPrice.value = addOnPrices.admin ?? 87.5;
 syncQuoteMetaFields();
 
 els.customerName.addEventListener("input", () => {
@@ -3836,6 +3843,11 @@ els.consumablesPercent.addEventListener("change", () => {
   save();
 });
 
+els.adminPrice.addEventListener("change", () => {
+  addOnPrices.admin = Number(els.adminPrice.value) || 0;
+  save();
+});
+
 els.addMeasure.addEventListener("click", () => {
   addOnPrices.measure = Number(els.measurePrice.value) || 0;
   addManualFixedQuoteItem("Measure", addOnPrices.measure);
@@ -3877,6 +3889,11 @@ els.addDelivery.addEventListener("click", () => {
 els.addConsumables.addEventListener("click", () => {
   addOnPrices.consumablesPercent = Number(els.consumablesPercent.value) || 5;
   addConsumablesQuoteItem(addOnPrices.consumablesPercent);
+});
+
+els.addAdmin.addEventListener("click", () => {
+  addOnPrices.admin = Number(els.adminPrice.value) || 0;
+  addManualFixedQuoteItem("Admin", addOnPrices.admin);
 });
 
 initializeLogin();
