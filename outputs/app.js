@@ -224,7 +224,7 @@ let addOnPrices = {
 if (addOnPrices.reCracktest === 136.5) {
   addOnPrices.reCracktest = defaultAddOnPrices.reCracktest;
 }
-let quoteMeta = { customerName: "", initialQuoteNumber: "", customerWorkOrder: "" };
+let quoteMeta = { customerName: "", initialQuoteNumber: "", customerWorkOrder: "", etaDays: "" };
 let collapsedModels = { parts: {}, fixed: {} };
 let yearlyIncreaseLog = load(STORAGE_KEYS.yearlyIncreaseLog, []);
 let selectedPriceFileIds = new Set();
@@ -244,6 +244,7 @@ const els = {
   customerName: document.querySelector("#customerName"),
   initialQuoteNumber: document.querySelector("#initialQuoteNumber"),
   customerWorkOrder: document.querySelector("#customerWorkOrder"),
+  etaDays: document.querySelector("#etaDays"),
   measurePrice: document.querySelector("#measurePrice"),
   additionalDescription: document.querySelector("#additionalDescription"),
   additionalPrice: document.querySelector("#additionalPrice"),
@@ -648,13 +649,14 @@ function save() {
 }
 
 function emptyQuoteMeta() {
-  return { customerName: "", initialQuoteNumber: "", customerWorkOrder: "" };
+  return { customerName: "", initialQuoteNumber: "", customerWorkOrder: "", etaDays: "" };
 }
 
 function syncQuoteMetaFields() {
   if (els.customerName) els.customerName.value = quoteMeta.customerName || "";
   if (els.initialQuoteNumber) els.initialQuoteNumber.value = quoteMeta.initialQuoteNumber || "";
   if (els.customerWorkOrder) els.customerWorkOrder.value = quoteMeta.customerWorkOrder || "";
+  if (els.etaDays) els.etaDays.value = quoteMeta.etaDays || "";
 }
 
 function clearCurrentQuote() {
@@ -2248,6 +2250,8 @@ function buildQuotePrintHtml(oneValue = false) {
   const customerName = quoteMeta.customerName.trim();
   const initialQuoteNumber = quoteMeta.initialQuoteNumber.trim();
   const customerWorkOrder = quoteMeta.customerWorkOrder.trim();
+  const etaDays = Math.max(0, Math.floor(Number(quoteMeta.etaDays) || 0));
+  const leadTimeText = etaDays ? `LEAD TIME FROM GO AHEAD: GO AHEAD DAY + ${etaDays} DAYS` : "";
   const quoteDocumentTitle = initialQuoteNumber ? `Quote ${initialQuoteNumber}` : "Quote";
   const totals = quoteTotals();
   const logoUrl = new URL("cgc-logo.png", window.location.href).href;
@@ -2412,6 +2416,10 @@ function buildQuotePrintHtml(oneValue = false) {
             margin: 0;
             line-height: 1.28;
           }
+          .quote-customer-name {
+            font-size: 15px;
+            font-weight: 800;
+          }
           .terms {
             margin: 0 0 24px;
             font-size: 12px;
@@ -2507,6 +2515,12 @@ function buildQuotePrintHtml(oneValue = false) {
             font-weight: 700;
           }
           .validity {
+            margin: 0 0 8px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+          }
+          .lead-time {
             margin: 0 0 8px;
             font-size: 12px;
             font-weight: 700;
@@ -2659,7 +2673,8 @@ function buildQuotePrintHtml(oneValue = false) {
             ctx.font = "18px Arial";
             const parties = document.querySelectorAll(".party");
             [...(parties[0]?.querySelectorAll("p") || [])].forEach((p, index) => ctx.fillText(p.textContent, 90, 330 + index * 26));
-            [...(parties[1]?.querySelectorAll("p") || [])].forEach((p, index) => ctx.fillText(p.textContent, 520, 330 + index * 26));
+            ctx.font = "700 22px Arial";
+            [...(parties[1]?.querySelectorAll("p") || [])].forEach((p, index) => ctx.fillText(p.textContent, 520, 330 + index * 28));
 
             let y = 455;
             ctx.font = "700 18px Arial";
@@ -2712,8 +2727,14 @@ function buildQuotePrintHtml(oneValue = false) {
 
             ctx.font = "700 18px Arial";
             ctx.fillText("Quote Valid For 30 Days", 120, 1540);
+            const leadTime = document.querySelector(".lead-time")?.textContent || "";
+            let noteY = 1570;
+            if (leadTime) {
+              ctx.fillText(leadTime, 120, noteY);
+              noteY += 30;
+            }
             ctx.font = "16px Arial";
-            ctx.fillText("Prices shown in AUD and exclude GST unless otherwise stated.", 120, 1570);
+            ctx.fillText("Prices shown in AUD and exclude GST unless otherwise stated.", 120, noteY);
 
             const pdfBlob = makePdfFromJpeg(canvas.toDataURL("image/jpeg", 0.92), pageWidth, pageHeight);
             const link = document.createElement("a");
@@ -2754,8 +2775,7 @@ function buildQuotePrintHtml(oneValue = false) {
             </div>
             <div class="party">
               <span class="party-title">Quote To:</span>
-              <p>${escapeHtml(customerName || "Customer")}</p>
-              <p>Project / Site</p>
+              <p class="quote-customer-name">${escapeHtml(customerName || "Customer")}</p>
             </div>
           </section>
 
@@ -2779,6 +2799,7 @@ function buildQuotePrintHtml(oneValue = false) {
           <section class="summary-area" aria-label="Quote totals and terms">
             <div>
               <p class="validity">Quote Valid For 30 Days</p>
+              ${leadTimeText ? `<p class="lead-time">${escapeHtml(leadTimeText)}</p>` : ""}
               <p class="notes"><strong>Terms &amp; Conditions:</strong><br>Delivery timeline and scope to be confirmed after job inspection. Quote applies to the listed work only.</p>
             </div>
             <div class="totals">
@@ -3814,6 +3835,11 @@ els.initialQuoteNumber.addEventListener("input", () => {
 
 els.customerWorkOrder.addEventListener("input", () => {
   quoteMeta.customerWorkOrder = els.customerWorkOrder.value.trim();
+  save();
+});
+
+els.etaDays.addEventListener("input", () => {
+  quoteMeta.etaDays = els.etaDays.value.trim();
   save();
 });
 

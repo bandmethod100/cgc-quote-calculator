@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CGC Quote Calculator</title>
-    <link rel="stylesheet" href="styles.css?v=20260826-10">
+    <link rel="stylesheet" href="styles.css?v=20260826-11">
   </head>
   <body class="auth-locked">
     <section class="login-screen" id="loginScreen" aria-labelledby="loginTitle">
@@ -294,6 +294,10 @@
               <span>Customer W/O #</span>
               <input id="customerWorkOrder" type="text" placeholder="Customer W/O #">
             </label>
+            <label>
+              <span>ETA days</span>
+              <input id="etaDays" type="number" min="0" step="1" placeholder="Days">
+            </label>
           </div>
           <div id="quoteList" class="quote-list"></div>
           <div class="quote-footer">
@@ -457,6 +461,6 @@
       </tr>
     </template>
 
-    <script src="app.js?v=20260826-10"></script>
+    <script src="app.js?v=20260826-11"></script>
   </body>
 </html>
