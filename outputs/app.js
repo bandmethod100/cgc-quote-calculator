@@ -224,7 +224,7 @@ let addOnPrices = {
 if (addOnPrices.reCracktest === 136.5) {
   addOnPrices.reCracktest = defaultAddOnPrices.reCracktest;
 }
-let quoteMeta = { customerName: "", initialQuoteNumber: "", customerWorkOrder: "", etaDays: "" };
+let quoteMeta = { customerName: "", initialQuoteNumber: "", customerWorkOrder: "", etaDays: "", stripModelLetters: false };
 let collapsedModels = { parts: {}, fixed: {} };
 let yearlyIncreaseLog = load(STORAGE_KEYS.yearlyIncreaseLog, []);
 let selectedPriceFileIds = new Set();
@@ -245,6 +245,7 @@ const els = {
   initialQuoteNumber: document.querySelector("#initialQuoteNumber"),
   customerWorkOrder: document.querySelector("#customerWorkOrder"),
   etaDays: document.querySelector("#etaDays"),
+  stripModelLetters: document.querySelector("#stripModelLetters"),
   measurePrice: document.querySelector("#measurePrice"),
   additionalDescription: document.querySelector("#additionalDescription"),
   additionalPrice: document.querySelector("#additionalPrice"),
@@ -649,7 +650,7 @@ function save() {
 }
 
 function emptyQuoteMeta() {
-  return { customerName: "", initialQuoteNumber: "", customerWorkOrder: "", etaDays: "" };
+  return { customerName: "", initialQuoteNumber: "", customerWorkOrder: "", etaDays: "", stripModelLetters: false };
 }
 
 function syncQuoteMetaFields() {
@@ -657,6 +658,7 @@ function syncQuoteMetaFields() {
   if (els.initialQuoteNumber) els.initialQuoteNumber.value = quoteMeta.initialQuoteNumber || "";
   if (els.customerWorkOrder) els.customerWorkOrder.value = quoteMeta.customerWorkOrder || "";
   if (els.etaDays) els.etaDays.value = quoteMeta.etaDays || "";
+  if (els.stripModelLetters) els.stripModelLetters.checked = Boolean(quoteMeta.stripModelLetters);
 }
 
 function clearCurrentQuote() {
@@ -2238,9 +2240,15 @@ function oneValueDescriptionHtml(section) {
     .filter(Boolean)
     .join("\n");
   return `
-    <div class="one-value-title">${escapeHtml(section.heading)}</div>
+    <div class="one-value-title">${escapeHtml(generatedQuoteHeading(section.heading))}</div>
     <div class="one-value-breakdown">${escapeHtml(breakdown)}</div>
   `;
+}
+
+function generatedQuoteHeading(heading) {
+  const value = String(heading || "");
+  if (!quoteMeta.stripModelLetters) return value;
+  return value.replace(/^(\d+)[A-Za-z]+\b/, "$1");
 }
 
 function buildQuotePrintHtml(oneValue = false) {
@@ -2301,7 +2309,7 @@ function buildQuotePrintHtml(oneValue = false) {
       }
       return `
         <tr class="group-row">
-          <td colspan="4">${escapeHtml(section.heading)}</td>
+          <td colspan="4">${escapeHtml(generatedQuoteHeading(section.heading))}</td>
         </tr>
         ${sectionRows}
       `;
@@ -3840,6 +3848,11 @@ els.customerWorkOrder.addEventListener("input", () => {
 
 els.etaDays.addEventListener("input", () => {
   quoteMeta.etaDays = els.etaDays.value.trim();
+  save();
+});
+
+els.stripModelLetters.addEventListener("change", () => {
+  quoteMeta.stripModelLetters = els.stripModelLetters.checked;
   save();
 });
 

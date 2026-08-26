@@ -1037,6 +1037,29 @@ td.percent {
   min-height: 36px;
 }
 
+.quote-meta-fields .quote-check-option {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  min-height: 32px;
+  padding-top: 2px;
+}
+
+.quote-meta-fields .quote-check-option input {
+  width: 16px;
+  height: 16px;
+  min-height: 16px;
+  margin: 0;
+  accent-color: var(--brand);
+}
+
+.quote-meta-fields .quote-check-option span {
+  color: #526173;
+  font-size: 12px;
+  font-weight: 800;
+}
+
 .quote-addon {
   display: grid;
   grid-template-columns: minmax(160px, 1fr) auto;
