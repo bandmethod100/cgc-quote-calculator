@@ -2356,9 +2356,9 @@ function buildQuotePrintHtml(oneValue = false) {
             padding: 54px 72px 42px;
             overflow: hidden;
             background:
-              repeating-radial-gradient(ellipse at 18% -14%, rgba(14, 116, 144, 0.12) 0 1px, transparent 2px 9px),
-              repeating-radial-gradient(ellipse at -15% 93%, rgba(5, 7, 10, 0.18) 0 1px, transparent 2px 10px),
-              repeating-radial-gradient(ellipse at 112% 95%, rgba(5, 7, 10, 0.16) 0 1px, transparent 2px 10px),
+              repeating-radial-gradient(ellipse at 18% -14%, rgba(14, 116, 144, 0.06) 0 1px, transparent 2px 9px),
+              repeating-radial-gradient(ellipse at -15% 93%, rgba(5, 7, 10, 0.07) 0 1px, transparent 2px 10px),
+              repeating-radial-gradient(ellipse at 112% 95%, rgba(5, 7, 10, 0.06) 0 1px, transparent 2px 10px),
               linear-gradient(#fff, #fff);
             background-size: 620px 240px, 280px 240px, 290px 250px, auto;
             background-position: left top, left bottom, right bottom, center;
