@@ -1110,18 +1110,24 @@ td.percent {
 
 .weld-addon {
   grid-column: 1 / -1;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 190px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(120px, 0.7fr) 190px;
   grid-template-areas:
-    "label label label"
-    "price hours button";
+    "label label label label"
+    "price hours cracks button";
 }
 
 .weld-addon .currency-input {
   grid-area: price;
 }
 
-.weld-addon .hours-addon-input {
+.weld-addon .hours-addon-input:first-of-type {
   grid-area: hours;
+  width: 100%;
+  min-width: 0;
+}
+
+.weld-addon .hours-addon-input:nth-of-type(2) {
+  grid-area: cracks;
   width: 100%;
   min-width: 0;
 }

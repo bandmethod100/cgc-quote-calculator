@@ -58,7 +58,7 @@ const currency = new Intl.NumberFormat("en-AU", {
 const sellPercentOptions = [0, 5, 8, 10, 15, 20, 25, 30, 35];
 const defaultCrackTestBaseCost = 155;
 const defaultCrackTestSellPercent = 15;
-const defaultAddOnPrices = { measure: 165, cleanPack: 247.5, weldRepairs: 0, weldRepairsHours: "", cracks: 0, cracksCount: "", reCracktest: 178.5, delivery: 150, admin: 87.5, additional: 0, consumablesPercent: 5 };
+const defaultAddOnPrices = { measure: 165, cleanPack: 247.5, weldRepairs: 0, weldRepairsHours: "", cracksCount: "", reCracktest: 178.5, delivery: 150, admin: 87.5, additional: 0, consumablesPercent: 5 };
 const weldRepairsHourlyRate = 165;
 const threadRepairPricingScales = {
   "m10-m16": {
@@ -219,7 +219,6 @@ let addOnPrices = {
   additional: 0,
   weldRepairs: 0,
   weldRepairsHours: "",
-  cracks: 0,
   cracksCount: ""
 };
 if (addOnPrices.reCracktest === 136.5) {
@@ -254,9 +253,7 @@ const els = {
   weldRepairsPrice: document.querySelector("#weldRepairsPrice"),
   weldRepairsHours: document.querySelector("#weldRepairsHours"),
   addWeldRepairs: document.querySelector("#addWeldRepairs"),
-  cracksPrice: document.querySelector("#cracksPrice"),
   cracksCount: document.querySelector("#cracksCount"),
-  addCracks: document.querySelector("#addCracks"),
   reCracktestPrice: document.querySelector("#reCracktestPrice"),
   addReCracktest: document.querySelector("#addReCracktest"),
   addCleanPack: document.querySelector("#addCleanPack"),
@@ -1987,7 +1984,7 @@ function addFixedQuoteItems(items) {
   render();
 }
 
-function addManualFixedQuoteItem(label, price) {
+function addManualFixedQuoteItem(label, price, extra = {}) {
   const sellPrice = Number(price) || 0;
   quoteItems.push({
     id: createId(),
@@ -1999,25 +1996,8 @@ function addManualFixedQuoteItem(label, price) {
     description: "",
     baseCost: sellPrice,
     sellPercent: 0,
-    quantity: 1
-  });
-  render();
-}
-
-function addCracksQuoteItem(price, count) {
-  const crackCount = Math.max(1, Math.floor(Number(count) || 1));
-  quoteItems.push({
-    id: createId(),
-    partId: "found-cracks",
-    serviceType: "manual-fixed",
-    serviceLabel: "Found Cracks",
-    fixedPrice: true,
-    model: "",
-    description: "",
-    baseCost: Number(price) || 0,
-    sellPercent: 0,
     quantity: 1,
-    crackCount
+    ...extra
   });
   render();
 }
@@ -2103,7 +2083,7 @@ function quoteItemRootKey(item) {
 
 function quoteLineLabel(item) {
   if (isConsumablesItem(item)) return "Consumables";
-  if (isFoundCracksItem(item)) return foundCracksQuoteLabel(item);
+  if (isWeldRepairsItem(item) && item.crackCount) return `Weld Repairs (${foundCracksQuoteLabel(item)})`;
   if (item.serviceType === "manual-fixed" && item.serviceLabel === "Re-cracktest") return "Re-cracktest (3rd Party)";
   if (item.serviceType === "manual-fixed") return item.serviceLabel;
   if (item.serviceType === "sandblast") return "Sandblast";
@@ -2126,8 +2106,8 @@ function modRepairQuoteLabel(value) {
   return `Perform ${String(value || "").trim()} As Per SIS Document`;
 }
 
-function isFoundCracksItem(item) {
-  return item.serviceType === "manual-fixed" && item.serviceLabel === "Found Cracks";
+function isWeldRepairsItem(item) {
+  return item.serviceType === "manual-fixed" && item.serviceLabel === "Weld Repairs";
 }
 
 function foundCracksQuoteLabel(item) {
@@ -3807,7 +3787,6 @@ els.measurePrice.value = addOnPrices.measure ?? 165;
 els.additionalPrice.value = addOnPrices.additional ?? 0;
 els.weldRepairsPrice.value = addOnPrices.weldRepairs ?? 0;
 els.weldRepairsHours.value = addOnPrices.weldRepairsHours ?? "";
-els.cracksPrice.value = addOnPrices.cracks ?? 0;
 els.cracksCount.value = addOnPrices.cracksCount ?? "";
 els.reCracktestPrice.value = addOnPrices.reCracktest ?? defaultAddOnPrices.reCracktest;
 els.cleanPackPrice.value = addOnPrices.cleanPack ?? 247.5;
@@ -3855,11 +3834,6 @@ els.weldRepairsHours.addEventListener("input", () => {
     addOnPrices.weldRepairs = calculated;
     renderPriceFileOptions();
   }
-  save();
-});
-
-els.cracksPrice.addEventListener("change", () => {
-  addOnPrices.cracks = Number(els.cracksPrice.value) || 0;
   save();
 });
 
@@ -3913,14 +3887,14 @@ els.addAdditionalItem.addEventListener("click", () => {
 els.addWeldRepairs.addEventListener("click", () => {
   addOnPrices.weldRepairs = weldRepairsCalculatedPrice();
   addOnPrices.weldRepairsHours = els.weldRepairsHours.value;
-  els.weldRepairsPrice.value = addOnPrices.weldRepairs.toFixed(2);
-  addManualFixedQuoteItem("Weld Repairs", addOnPrices.weldRepairs);
-});
-
-els.addCracks.addEventListener("click", () => {
-  addOnPrices.cracks = Number(els.cracksPrice.value) || 0;
   addOnPrices.cracksCount = els.cracksCount.value;
-  addCracksQuoteItem(addOnPrices.cracks, addOnPrices.cracksCount);
+  els.weldRepairsPrice.value = addOnPrices.weldRepairs.toFixed(2);
+  const crackCount = Math.max(0, Math.floor(Number(addOnPrices.cracksCount) || 0));
+  addManualFixedQuoteItem(
+    "Weld Repairs",
+    addOnPrices.weldRepairs,
+    crackCount ? { crackCount } : {}
+  );
 });
 
 els.addReCracktest.addEventListener("click", () => {
