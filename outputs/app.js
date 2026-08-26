@@ -2004,7 +2004,7 @@ function addManualFixedQuoteItem(label, price, extra = {}) {
 
 function addConsumablesQuoteItem(percent) {
   const selectedPercent = Number(percent) || 0;
-  const currentTotal = quoteTotals().sell;
+  const currentTotal = consumablesBaseTotal();
 
   if (!currentTotal) {
     alert("Add at least one quote item before adding consumables.");
@@ -2064,6 +2064,13 @@ function quoteTotals() {
     },
     { base: 0, sell: 0 }
   );
+}
+
+function consumablesBaseTotal() {
+  return quoteItems.reduce((total, item) => {
+    if (isConsumablesItem(item) || isDeliveryItem(item) || isAdminItem(item)) return total;
+    return total + quoteLineTotal(item);
+  }, 0);
 }
 
 function quoteItemRootName(item) {
