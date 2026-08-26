@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CGC Quote Calculator</title>
-    <link rel="stylesheet" href="styles.css?v=20260826-07">
+    <link rel="stylesheet" href="styles.css?v=20260826-08">
   </head>
   <body class="auth-locked">
     <section class="login-screen" id="loginScreen" aria-labelledby="loginTitle">
@@ -213,6 +213,19 @@
                 <span>$165/hr</span>
               </div>
               <button class="primary-btn" id="addWeldRepairs" type="button">Add Weld Repairs</button>
+            </div>
+
+            <div class="quote-addon compact-addon service-addon weld-addon">
+              <span class="addon-label">Cracks</span>
+              <span class="currency-input">
+                <span>$</span>
+                <input id="cracksPrice" type="number" min="0" step="0.01" value="0.00">
+              </span>
+              <div class="hours-addon-input">
+                <input id="cracksCount" type="number" min="1" step="1" value="" placeholder="Qty">
+                <span>cracks</span>
+              </div>
+              <button class="primary-btn" id="addCracks" type="button">Add Cracks</button>
             </div>
 
             <div class="quote-addon compact-addon service-addon">
@@ -453,6 +466,6 @@
       </tr>
     </template>
 
-    <script src="app.js?v=20260826-07"></script>
+    <script src="app.js?v=20260826-08"></script>
   </body>
 </html>
