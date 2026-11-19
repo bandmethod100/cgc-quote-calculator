@@ -1351,20 +1351,20 @@ function renderParts() {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${escapeHtml(part.description)}</td>
-        <td class="money">${blastBaseCell}</td>
-        <td class="percent">
+        <td class="money" data-label="Blast base">${blastBaseCell}</td>
+        <td class="percent" data-label="Blast %">
           <select class="percent-select" data-part-percent="${part.id}" aria-label="Sell percent for ${escapeHtml(displayPartName(part))}">
             ${percentOptionsHtml(part.sellPercent)}
           </select>
         </td>
-        <td class="money">${blastSell}</td>
-        <td class="money">${crackBaseCell}</td>
-        <td class="percent">
+        <td class="money" data-label="Blast sell">${blastSell}</td>
+        <td class="money" data-label="Crack-test base">${crackBaseCell}</td>
+        <td class="percent" data-label="Crack-test %">
           <select class="percent-select" data-crack-percent="${part.id}" aria-label="Crack-test sell percent for ${escapeHtml(displayPartName(part))}"${crackQuoteDisabled}>
             ${percentOptionsHtml(part.crackTestSellPercent)}
           </select>
         </td>
-        <td class="money">${crackSell}</td>
+        <td class="money" data-label="Crack-test sell">${crackSell}</td>
         <td>
           <div class="row-actions">
             <button type="button" data-action="quote-sandblast" data-id="${part.id}"${blastQuoteDisabled}>Blast</button>
@@ -1419,9 +1419,9 @@ function renderFixedItems() {
     row.innerHTML = `
       <td></td>
       <td>${escapeHtml(group.item)}</td>
-      <td>${escapeHtml(group.areaLabel)}</td>
-      <td><span class="method-pill">${escapeHtml(group.method)}</span></td>
-      <td class="money">${escapeHtml(group.priceLabel)}</td>
+      <td data-label="Area">${escapeHtml(group.areaLabel)}</td>
+      <td data-label="Method"><span class="method-pill">${escapeHtml(group.method)}</span></td>
+      <td class="money" data-label="Sell">${escapeHtml(group.priceLabel)}</td>
       <td>
         <div class="row-actions ${actionClass}">
           ${fixedActionButtons(group)}
