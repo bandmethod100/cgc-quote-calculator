@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CGC Quote Calculator</title>
-    <link rel="stylesheet" href="styles.css?v=20261119-02">
+    <link rel="stylesheet" href="styles.css?v=20261119-03">
   </head>
   <body class="auth-locked">
     <section class="login-screen" id="loginScreen" aria-labelledby="loginTitle">
@@ -355,79 +355,57 @@
       </form>
     </dialog>
 
-    <dialog id="fixedRepairDialog">
+    <dialog id="fixedRepairDialog" aria-labelledby="fixedRepairDialogTitle">
       <form id="fixedRepairForm" method="dialog">
         <div class="dialog-head">
-          <div>
-            <h2 id="fixedRepairDialogTitle">Add Fixed Repair</h2>
-            <p>Add a fixed sell price repair to the pricing table.</p>
-          </div>
-          <button class="icon-btn" id="closeFixedRepairForm" type="button" aria-label="Close">x</button>
+          <h2 id="fixedRepairDialogTitle">Add Fixed Repair</h2>
+          <button class="icon-btn" id="closeFixedRepairForm" type="button" aria-label="Close">&times;</button>
         </div>
 
-        <section class="dialog-section edit-fixed-selector" id="fixedRepairSelectSection" hidden>
-          <h3>Select Repair To Edit</h3>
-          <label>
-            <span>Fixed repair</span>
-            <select id="fixedRepairSelect"></select>
-          </label>
-        </section>
+        <div class="fixed-form-body">
+          <section class="dialog-section" id="fixedRepairSelectSection" hidden>
+            <label><span>Select repair to edit</span><select id="fixedRepairSelect"></select></label>
+          </section>
 
-        <section class="dialog-section">
-          <h3>Part Details</h3>
-          <div class="form-grid">
-            <label>
-              <span>Model number</span>
-              <input id="fixedModelInput" type="text" required placeholder="793F">
-            </label>
-            <label>
-              <span>Item</span>
-              <input id="fixedItemInput" type="text" required placeholder="Rear Spindle">
-            </label>
-          </div>
-          <div class="form-grid single-field">
-            <label>
-              <span>Method</span>
-              <input id="fixedMethodInput" type="text" required placeholder="Laser Cladding">
-            </label>
-          </div>
-        </section>
-
-        <section class="dialog-section repair-area-picker">
-          <h3>Repair Areas &amp; Sell Prices</h3>
-          <div class="area-detail-row">
-            <label>
-              <span>Shared area detail</span>
-              <input id="fixedAreaInput" type="text" placeholder="Bearing Area">
-            </label>
-            <p>Used for Inner and Outer, eg Inner Bearing Area.</p>
-          </div>
-
-          <div class="repair-area-list">
-            <label class="repair-area-row">
-              <span class="area-choice"><input type="checkbox" value="inner" data-fixed-area-option> Inner</span>
-              <span class="currency-input"><span>$</span><input id="fixedInnerSellPriceInput" type="number" min="0" step="0.01" placeholder="2150"></span>
-            </label>
-            <label class="repair-area-row">
-              <span class="area-choice"><input type="checkbox" value="outer" data-fixed-area-option> Outer</span>
-              <span class="currency-input"><span>$</span><input id="fixedOuterSellPriceInput" type="number" min="0" step="0.01" placeholder="2150"></span>
-            </label>
-            <label class="repair-area-row">
-              <span class="area-choice"><input type="checkbox" value="seal" data-fixed-area-option> Seal</span>
-              <span class="currency-input"><span>$</span><input id="fixedSealSellPriceInput" type="number" min="0" step="0.01" placeholder="1200"></span>
-            </label>
-            <div class="repair-area-row repair-area-row-other" data-fixed-other-row>
-              <span class="other-choice-wrap">
-                <label class="area-choice"><input type="checkbox" value="other" data-fixed-area-option> Other</label>
-                <button class="mini-plus-btn" id="addFixedOtherArea" type="button" aria-label="Add another other repair area">+</button>
-              </span>
-              <input id="fixedOtherAreaInput" type="text" placeholder="Skim Face">
-              <span class="currency-input"><span>$</span><input id="fixedOtherSellPriceInput" type="number" min="0" step="0.01" placeholder="900"></span>
+          <section class="dialog-section">
+            <h3>Part details</h3>
+            <div class="form-grid">
+              <label><span>Model number</span><input id="fixedModelInput" type="text" required placeholder="793F"></label>
+              <label><span>Item</span><input id="fixedItemInput" type="text" required placeholder="Rear Spindle"></label>
+              <label><span>Method</span><input id="fixedMethodInput" type="text" required placeholder="Laser Cladding"></label>
+              <label><span>Shared area detail</span><input id="fixedAreaInput" type="text" placeholder="Bearing Area"></label>
             </div>
-            <div class="extra-other-list" id="fixedOtherAreaList"></div>
-          </div>
-          <p class="dialog-hint">Each selected area needs its own sell price. Seal is always kept separate from Both.</p>
-        </section>
+          </section>
+
+          <section class="dialog-section repair-area-picker">
+            <h3>Repair areas &amp; sell prices</h3>
+            <div class="area-columns" aria-hidden="true"><span>Repair area</span><span>Sell price</span></div>
+            <div class="repair-area-list">
+              <div class="repair-area-row">
+                <label class="area-choice"><input type="checkbox" value="inner" data-fixed-area-option> Inner</label>
+                <span class="currency-input"><span>$</span><input id="fixedInnerSellPriceInput" aria-label="Inner sell price" type="number" min="0" step="0.01" placeholder="0.00"></span>
+              </div>
+              <div class="repair-area-row">
+                <label class="area-choice"><input type="checkbox" value="outer" data-fixed-area-option> Outer</label>
+                <span class="currency-input"><span>$</span><input id="fixedOuterSellPriceInput" aria-label="Outer sell price" type="number" min="0" step="0.01" placeholder="0.00"></span>
+              </div>
+              <div class="repair-area-row">
+                <label class="area-choice"><input type="checkbox" value="seal" data-fixed-area-option> Seal</label>
+                <span class="currency-input"><span>$</span><input id="fixedSealSellPriceInput" aria-label="Seal sell price" type="number" min="0" step="0.01" placeholder="0.00"></span>
+              </div>
+              <div class="repair-area-row repair-area-row-other" data-fixed-other-row>
+                <div class="other-choice-wrap">
+                  <label class="area-choice"><input type="checkbox" value="other" data-fixed-area-option> Other</label>
+                  <button class="mini-plus-btn" id="addFixedOtherArea" type="button" aria-label="Add another custom repair area" title="Add another custom repair area">+</button>
+                </div>
+                <input id="fixedOtherAreaInput" aria-label="Custom repair area" type="text" placeholder="e.g. Skim Face">
+                <span class="currency-input"><span>$</span><input id="fixedOtherSellPriceInput" aria-label="Custom area sell price" type="number" min="0" step="0.01" placeholder="0.00"></span>
+              </div>
+              <div id="fixedOtherAreaList"></div>
+            </div>
+            <p class="dialog-hint">Inner and Outer share an area detail. Seal is priced separately.</p>
+          </section>
+        </div>
 
         <div class="dialog-actions">
           <button class="ghost-btn" id="cancelFixedRepairForm" type="button">Cancel</button>
@@ -452,6 +430,6 @@
       </tr>
     </template>
 
-    <script src="app.js?v=20261119-01"></script>
+    <script src="app.js?v=20261119-03"></script>
   </body>
 </html>

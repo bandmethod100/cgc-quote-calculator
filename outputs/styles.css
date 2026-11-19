@@ -1419,153 +1419,90 @@ dialog::backdrop {
   font-size: 0.82rem;
 }
 
-.dialog-section {
-  display: grid;
-  gap: 10px;
-  padding: 14px;
-  border: 1px solid #e4e9ee;
-  border-radius: 12px;
-  background: #fbfcfd;
-}
-
-.dialog-section[hidden] {
-  display: none;
-}
-
-.dialog-section h3 {
-  font-size: 0.88rem;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-
-.dialog-section label span,
-.area-choice {
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.area-detail-row {
-  display: grid;
-  grid-template-columns: minmax(230px, 0.7fr) minmax(210px, 0.45fr);
-  gap: 12px;
-  align-items: center;
-}
-
-.area-detail-row p,
-.dialog-hint {
-  color: var(--muted);
-  font-size: 0.78rem;
-  line-height: 1.35;
-}
-
-.repair-area-list {
-  display: grid;
-  gap: 7px;
-}
-
-.repair-area-row {
-  display: grid;
-  grid-template-columns: 126px minmax(0, 1fr);
-  gap: 10px;
-  align-items: center;
-  min-height: 58px;
-  padding: 8px 10px;
-  border: 1px solid #e2e8ee;
-  border-radius: 10px;
-  background: #fff;
-}
-
-.repair-area-row-other {
-  grid-template-columns: 126px minmax(190px, 1fr) 170px;
-}
-
-#fixedRepairDialog .repair-area-row .currency-input {
-  display: grid;
-  grid-template-columns: 36px minmax(0, 1fr);
-  width: 100%;
-  min-height: 40px;
-  margin: 0;
-}
-
-#fixedRepairDialog .repair-area-row .currency-input > span {
-  display: flex;
-  margin: 0;
-}
-
-#fixedRepairDialog .repair-area-row .currency-input input,
-#fixedRepairDialog .repair-area-row > input {
-  min-height: 40px;
-}
-
-.extra-other-list {
-  display: grid;
-  gap: 8px;
-}
-
-.extra-other-row {
-  grid-template-columns: 126px minmax(190px, 1fr) 170px 32px;
-}
-
-.other-choice-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.mini-plus-btn,
-.mini-remove-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  min-height: 28px;
-  padding: 0;
-  border-radius: 999px;
-  font-size: 1rem;
-  font-weight: 900;
-  line-height: 1;
-}
-
-.mini-plus-btn {
-  color: #fff;
-  background: var(--brand);
-}
-
-.mini-remove-btn {
-  color: var(--danger);
-  background: #fff6f4;
-  border: 1px solid #efd1cc;
-}
-
-#fixedRepairDialog .form-grid {
-  gap: 10px;
-}
-
-#fixedRepairDialog input:not([type="checkbox"]) {
-  min-height: 38px;
-}
-
-.area-choice {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+#fixedRepairDialog {
+  width: min(620px, calc(100% - 20px));
+  max-height: calc(100dvh - 24px);
   color: var(--ink);
-  min-height: 32px;
+  border-radius: 14px;
 }
-
-#fixedRepairDialog .area-choice input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  min-height: 16px;
+#fixedRepairForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   padding: 0;
-  margin: 0;
-  flex: 0 0 16px;
-  border-radius: 4px;
-  accent-color: var(--brand);
+  max-height: calc(100dvh - 24px);
+}
+#fixedRepairForm :is(.dialog-head, .dialog-actions) {
+  flex: none;
+  padding: 12px 20px;
+}
+#fixedRepairForm .dialog-head {
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(105deg, #e8f3ef, #f7f9f6);
+}
+#fixedRepairForm .dialog-head h2 { font-size: 1.18rem; }
+#fixedRepairForm .icon-btn { border-radius: 50%; background: #fff; font-size: 1.15rem; }
+#fixedRepairForm .dialog-actions { border-top: 1px solid var(--line); }
+.fixed-form-body {
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+.dialog-section { display: grid; gap: 10px; }
+.dialog-section[hidden] { display: none; }
+.dialog-section:not([hidden]) + .dialog-section { margin-top: 18px; }
+.dialog-section h3 { margin: 0; color: var(--brand-strong); font-size: .95rem; }
+#fixedRepairForm .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; }
+#fixedRepairForm :is(input:not([type="checkbox"]), select, .currency-input) { border-radius: 8px; min-width: 0; }
+#fixedRepairForm .currency-input { grid-template-columns: 30px minmax(0, 1fr); grid-column: -2 / -1; }
+#fixedRepairForm .currency-input input { border-radius: 0; text-align: right; font-variant-numeric: tabular-nums; }
+#fixedRepairForm .currency-input > span { min-width: 0; }
+.repair-area-picker { --price-width: 124px; --row-pad: 10px; gap: 7px; }
+.area-columns, .repair-area-row {
+  display: grid;
+  align-items: center;
+  column-gap: 10px;
+  grid-template-columns: 104px minmax(0, 1fr) var(--price-width);
+  padding: 6px var(--row-pad);
+}
+.area-columns {
+  background: #f2f6f4;
+  border-radius: 7px;
+  color: #526961;
+  font-size: .76rem;
+  font-weight: 650;
+}
+.area-columns span:last-child { grid-column: -2 / -1; }
+.repair-area-row { border-bottom: 1px solid var(--line); }
+.repair-area-row:has(input:checked) { background: #f5faf8; }
+.area-choice, .other-choice-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .88rem;
+  font-weight: 600;
+}
+.area-choice { cursor: pointer; min-height: 34px; }
+.area-choice input[type="checkbox"] {
+  width: 16px; height: 16px; min-height: 0; margin: 0; padding: 0; accent-color: var(--brand);
+}
+.extra-other-row .other-choice-wrap { padding-left: 24px; }
+.mini-plus-btn, .mini-remove-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 26px; height: 26px; padding: 0;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  font: 600 16px/1 Arial, sans-serif;
+}
+.mini-remove-btn { background: #f8ebe8; color: var(--danger); }
+.dialog-hint { color: var(--muted); font-size: .78rem; line-height: 1.4; }
+@media (max-width: 500px) {
+  .fixed-form-body, #fixedRepairForm :is(.dialog-head, .dialog-actions) { padding: 12px; }
+  .repair-area-picker { --price-width: 100px; --row-pad: 4px; }
+  .repair-area-row, .area-columns { grid-template-columns: minmax(0, 1fr) var(--price-width); }
+  .repair-area-row-other .other-choice-wrap { grid-column: 1 / -1; }
+  .extra-other-row .other-choice-wrap { padding-left: 0; }
 }
 
 .dialog-head,
@@ -1719,7 +1656,6 @@ dialog::backdrop {
   .table-wrap .money { white-space: normal; }
   .admin-save-row, .admin-price-file .panel-head { align-items: stretch; flex-direction: column; }
   .price-file-actions { justify-content: start; }
-  .area-detail-row, .repair-area-row-other, .extra-other-row { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 420px) {
   .fixed-head-actions { margin-left: 0; }

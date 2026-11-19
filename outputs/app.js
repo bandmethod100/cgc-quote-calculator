@@ -1704,10 +1704,9 @@ function addFixedOtherAreaRow(repairArea = "", sellPrice = "") {
   row.className = "repair-area-row repair-area-row-other extra-other-row";
   row.dataset.fixedOtherRow = "";
   row.innerHTML = `
-    <span class="area-choice">Other</span>
-    <input type="text" value="${escapeHtml(repairArea)}" placeholder="Skim Face" data-fixed-extra-other-area>
-    <span class="currency-input"><span>$</span><input type="number" min="0" step="0.01" value="${sellPrice === "" ? "" : Number(sellPrice)}" placeholder="900" data-fixed-extra-other-price></span>
-    <button class="mini-remove-btn" type="button" data-remove-fixed-other aria-label="Remove other repair area">x</button>
+    <div class="other-choice-wrap"><span>Other</span><button class="mini-remove-btn" type="button" data-remove-fixed-other aria-label="Remove custom repair area" title="Remove custom repair area">&minus;</button></div>
+    <input type="text" aria-label="Custom repair area" value="${escapeHtml(repairArea)}" placeholder="Repair area name" data-fixed-extra-other-area>
+    <span class="currency-input"><span>$</span><input aria-label="Custom area sell price" type="number" min="0" step="0.01" value="${sellPrice === "" ? "" : Number(sellPrice)}" placeholder="0.00" data-fixed-extra-other-price></span>
   `;
   els.fixedOtherAreaList.append(row);
   return row;
@@ -1838,6 +1837,7 @@ function fixedRepairGroupFromItem(item) {
 
 function openFixedRepairForm(item = null, showSelector = false) {
   els.fixedRepairForm.reset();
+  clearFixedOtherAreaRows();
   editingFixedRepairIds = [];
   els.fixedRepairSelectSection.hidden = !showSelector;
   els.fixedRepairDialogTitle.textContent = showSelector || item ? "Edit Fixed Repair" : "Add Fixed Repair";
